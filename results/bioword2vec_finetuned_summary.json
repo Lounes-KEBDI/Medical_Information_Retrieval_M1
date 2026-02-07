@@ -1,0 +1,12 @@
+{
+  "model": "BioWord2Vec_Fine-tuned",
+  "mean_ndcg@10": 0.6259313619588639,
+  "min_ndcg@10": 0.0,
+  "max_ndcg@10": 1.0,
+  "std_ndcg@10": 0.32626771383214853,
+  "num_queries": 50,
+  "num_documents": 171332,
+  "training_epochs": 5,
+  "common_vocab_size": 69868,
+  "new_vocab_size": 11357
+}
