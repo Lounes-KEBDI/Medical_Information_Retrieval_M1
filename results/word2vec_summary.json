@@ -1,0 +1,9 @@
+{
+  "model": "Word2Vec",
+  "mean_ndcg@10": 0.6099413548689268,
+  "min_ndcg@10": 0.0,
+  "max_ndcg@10": 1.0,
+  "std_ndcg@10": 0.33010233208334266,
+  "num_queries": 50,
+  "num_documents": 171332
+}

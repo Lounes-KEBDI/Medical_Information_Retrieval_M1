@@ -1,0 +1,10 @@
+{
+  "model": "BioWord2Vec",
+  "input_type": "title_only",
+  "mean_ndcg@10": 0.7080890075380409,
+  "min_ndcg@10": 0.0,
+  "max_ndcg@10": 1.0,
+  "std_ndcg@10": 0.27894655727398293,
+  "num_queries": 50,
+  "num_documents": 171332
+}

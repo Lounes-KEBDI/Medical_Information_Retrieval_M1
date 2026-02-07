@@ -1,0 +1,13 @@
+{
+  "model": "DAN",
+  "mean_ndcg@10": 0.6630474809431636,
+  "min_ndcg@10": 0.0,
+  "max_ndcg@10": 1.0,
+  "std_ndcg@10": 0.2695600485777526,
+  "num_queries": 50,
+  "num_documents": 171332,
+  "embedding_dim": 200,
+  "hidden_dim": 300,
+  "output_dim": 200,
+  "num_epochs": 5
+}

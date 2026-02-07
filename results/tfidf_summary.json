@@ -1,0 +1,9 @@
+{
+  "model": "TF-IDF",
+  "mean_ndcg@10": 0.5867821443324729,
+  "min_ndcg@10": 0.0,
+  "max_ndcg@10": 1.0,
+  "std_ndcg@10": 0.33502962352375976,
+  "num_queries": 50,
+  "num_documents": 171332
+}

@@ -1,0 +1,14 @@
+# On ignore tout le dossier models
+models/
+data/
+*.jsonl
+*.zip
+*.bin
+
+# Si tu as d'autres fichiers lourds ou temporaires
+*.bin
+*.pt
+*.onnx
+.DS_Store
+node_modules/
+venv/
