@@ -1,0 +1,12 @@
+{
+  "model": "BioBERT",
+  "model_name": "dmis-lab/biobert-base-cased-v1.1",
+  "mean_ndcg@10": 0.2885879191775621,
+  "min_ndcg@10": 0.0,
+  "max_ndcg@10": 1.0,
+  "std_ndcg@10": 0.34540604075392056,
+  "num_queries": 50,
+  "num_documents": 171332,
+  "embedding_dim": 768,
+  "max_length": 512
+}

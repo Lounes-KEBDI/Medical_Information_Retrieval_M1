@@ -1,0 +1,11 @@
+{
+  "model": "Sentence-BERT_Medical",
+  "model_name": "pritamdeka/S-PubMedBert-MS-MARCO",
+  "mean_ndcg@10": 0.8170681770196573,
+  "min_ndcg@10": 0.0,
+  "max_ndcg@10": 0.9986400209011808,
+  "std_ndcg@10": 0.2304516908525648,
+  "num_queries": 50,
+  "num_documents": 171332,
+  "embedding_dim": 768
+}
