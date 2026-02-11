@@ -1,0 +1,343 @@
+\documentclass[sigconf]{acmart}
+
+% --- Configuration et Packages ---
+\usepackage{booktabs} % Pour de beaux tableaux
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+% Configuration pour les listings de code
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    language=Python
+}
+
+% Suppression des méta-données de conférence pour le rendu "propre"
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+% --- Fichier de Bibliographie intégré (pour faciliter la compilation) ---
+\begin{filecontents}{references.bib}
+@article{vorhees2021trec,
+  title={TREC-COVID: constructing a pandemic information retrieval test collection},
+  author={Voorhees, Ellen and Alam, Tasmeer and Bedrick, Steven and Demner-Fushman, Dina and Hersh, William R and Lin, Jimmy and Lo, Kyle and Roberts, Kirk and Soboroff, Ian and Wang, Lucy Lu and others},
+  journal={ACM SIGIR Forum},
+  volume={54},
+  number={1},
+  pages={1--12},
+  year={2021},
+  publisher={ACM New York, NY, USA},
+  url={https://dl.acm.org/doi/10.1145/3451964.3451965},
+  doi={10.1145/3451964.3451965}
+}
+
+@inproceedings{reimers2019sentence,
+  title={Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks},
+  author={Reimers, Nils and Gurevych, Iryna},
+  booktitle={Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing},
+  pages={3982--3992},
+  year={2019},
+  url={https://arxiv.org/abs/1908.10084},
+  doi={10.18653/v1/D19-1410}
+}
+
+@article{lee2020biobert,
+  title={BioBERT: a pre-trained biomedical language representation model for biomedical text mining},
+  author={Lee, Jinhyuk and Yoon, Wonjin and Kim, Sungdong and Kim, Donghyeon and Kim, Sunkyu and So, Chan Ho and Kang, Jaewoo},
+  journal={Bioinformatics},
+  volume={36},
+  number={4},
+  pages={1234--1240},
+  year={2020},
+  publisher={Oxford University Press},
+  url={https://academic.oup.com/bioinformatics/article/36/4/1234/5566506},
+  doi={10.1093/bioinformatics/btz682}
+}
+
+@article{mikolov2013efficient,
+  title={Efficient estimation of word representations in vector space},
+  author={Mikolov, Tomas and Chen, Kai and Corrado, Greg and Dean, Jeffrey},
+  journal={arXiv preprint arXiv:1301.3781},
+  year={2013},
+  url={https://arxiv.org/abs/1301.3781}
+}
+
+@inproceedings{iyyer2015deep,
+  title={Deep unordered composition rivals syntactic methods for text classification},
+  author={Iyyer, Mohit and Manjunatha, Varun and Boyd-Graber, Jordan and Daum{\'e} III, Hal},
+  booktitle={Proceedings of the 53rd Annual Meeting of the Association for Computational Linguistics},
+  pages={1681--1691},
+  year={2015},
+  url={https://aclanthology.org/P15-1162},
+  doi={10.3115/v1/P15-1162}
+}
+
+@article{thakur2021beir,
+  title={BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models},
+  author={Thakur, Nandan and Reimers, Nils and R{\"u}ckl{\'e}, Andreas and Srivastava, Abhishek and Gurevych, Iryna},
+  journal={arXiv preprint arXiv:2104.08663},
+  year={2021},
+  url={https://arxiv.org/abs/2104.08663}
+}
+\end{filecontents}
+
+% --- Début du Document ---
+\begin{document}
+
+% --- Titre et Auteurs ---
+\title{Information Retrieval in the Medical Domain: A Comparative Study on TREC-COVID}
+
+\author{Nom Prénom}
+\affiliation{%
+  \institution{University Name}
+  \city{City}
+  \country{France}
+}
+\email{email@student.edu}
+
+% --- Abstract ---
+\begin{abstract}
+The COVID-19 pandemic highlighted the critical need for efficient Information Retrieval (IR) systems capable of navigating rapidly expanding scientific literature. A major challenge in this domain is the "vocabulary mismatch" problem, where queries in natural language do not match the technical jargon used in medical papers. This report presents a comprehensive comparative analysis of various IR models on the TREC-COVID dataset, ranging from classical lexical approaches (TF-IDF) to state-of-the-art neural models. We evaluate the performance of Word2Vec (general and biomedical), Deep Averaging Networks (DAN), and Transformer-based models (BioBERT, Sentence-BERT). Our experiments demonstrate that while generic embeddings provide minor improvements over baselines, domain-specific semantic models like Sentence-BERT achieve superior performance (NDCG@10 of 0.8171), significantly outperforming standard BERT implementations. We provide detailed analysis of implementation challenges, including overfitting issues with trainable models and the critical importance of task-specific fine-tuning for transformer architectures.
+\end{abstract}
+
+% --- Mots Clés ---
+\keywords{Information Retrieval, TREC-COVID, NLP, Sentence-BERT, Word Embeddings, Biomedical Text Mining}
+
+\maketitle
+
+% --- Corps du texte ---
+
+\section{Introduction}
+The rapid proliferation of scientific literature during the COVID-19 pandemic created an urgent need for specialized Information Retrieval (IR) systems. The TREC-COVID challenge \cite{vorhees2021trec} was established to evaluate the ability of IR systems to retrieve relevant biomedical articles from a corpus of over 171,000 scientific papers.
+
+The core problem addressed in this study is the \textit{vocabulary mismatch}. Users often query for symptoms using lay terms (e.g., "loss of smell"), while scientific documents use precise medical terminology (e.g., "anosmia"). Traditional exact-match systems (like TF-IDF) fail to capture these semantic equivalences, leading to poor retrieval performance.
+
+This report presents a comprehensive comparison of multiple approaches to solve this issue:
+\begin{itemize}
+    \item \textbf{Baseline:} TF-IDF (Term Frequency-Inverse Document Frequency).
+    \item \textbf{Static Embeddings:} Word2Vec trained on the corpus vs. Pre-trained BioWord2Vec.
+    \item \textbf{Neural Models:} Deep Averaging Network (DAN) with triplet loss.
+    \item \textbf{Transformer Models:} BioBERT (standard) and Sentence-BERT (optimized for semantic similarity).
+\end{itemize}
+
+Our contributions include: (1) a systematic evaluation framework using reusable functions for consistent model comparison, (2) detailed analysis of why certain approaches fail despite their theoretical advantages, and (3) insights into the trade-offs between model complexity and data availability in specialized domains.
+
+\section{Related Work}
+Information retrieval has evolved from lexical matching to semantic understanding. The Vector Space Model, exemplified by TF-IDF, remains a strong baseline but lacks semantic depth. It relies on exact word matching and term frequency statistics, making it vulnerable to vocabulary mismatch problems.
+
+The introduction of Word Embeddings, such as Word2Vec \cite{mikolov2013efficient}, allowed for vector representations where similar words are close in space. These static embeddings capture semantic relationships but lack contextual understanding. In the medical domain, models pre-trained on biomedical corpora, such as BioBERT \cite{lee2020biobert}, have shown that domain adaptation is crucial for performance.
+
+Deep Averaging Networks (DAN) \cite{iyyer2015deep} combine word embeddings with neural architectures, averaging word vectors and passing them through hidden layers. While effective for classification tasks, their performance in retrieval depends heavily on training data availability.
+
+More recently, Reimers et al. introduced Sentence-BERT \cite{reimers2019sentence}, optimizing BERT architectures specifically for semantic similarity tasks using siamese networks. This approach addresses a critical limitation of standard BERT: the [CLS] token embedding is not optimized for cosine similarity in dense retrieval scenarios.
+
+\section{Methodology}
+
+\subsection{Dataset}
+We utilized the TREC-COVID dataset \cite{thakur2021beir}, accessed through the BEIR framework, which consists of:
+\begin{itemize}
+    \item \textbf{Corpus:} 171,332 scientific articles from the CORD-19 collection, each containing a title and text (abstract or full content).
+    \item \textbf{Queries:} 50 distinct topics in natural language, representing real-world information needs.
+    \item \textbf{Qrels:} Expert relevance judgments used as Ground Truth, with relevance scores on a 0-2 scale (0: not relevant, 1: partially relevant, 2: highly relevant).
+\end{itemize}
+
+The dataset presents significant challenges: documents use technical medical terminology, while queries often employ lay language. This vocabulary mismatch is the primary obstacle our models must overcome.
+
+\subsection{Evaluation Framework}
+To ensure consistent and fair comparison across all models, we implemented a reusable evaluation framework in \texttt{functions.py}. This framework provides:
+
+\textbf{1. Model-Agnostic Search Function:} The \texttt{search()} function accepts any vectorizer/model and performs top-k retrieval using cosine similarity. This abstraction allows us to evaluate TF-IDF, Word2Vec, and transformer models with identical search logic.
+
+\textbf{2. Standardized Evaluation:} The \texttt{evaluate\_model()} function computes NDCG@10 for each query and aggregates statistics (mean, min, max, standard deviation) across all 50 queries. This ensures that performance differences reflect model capabilities rather than implementation variations.
+
+\textbf{3. Ground Truth Comparison:} The framework compares model predictions against expert judgments (Qrels) using scikit-learn's \texttt{ndcg\_score} implementation, ensuring metric consistency.
+
+\subsection{Models Implemented}
+
+\subsubsection{TF-IDF (Baseline)}
+\textbf{Implementation:} We used scikit-learn's \texttt{TfidfVectorizer} with default parameters. Documents and queries are represented as sparse TF-IDF vectors, and retrieval is performed via cosine similarity.
+
+\textbf{Rationale:} TF-IDF serves as our lower-bound reference. It captures term importance through frequency statistics but cannot handle semantic relationships or vocabulary mismatch.
+
+\subsubsection{Word2Vec Variants}
+
+\textbf{1. W2V-General:} Trained from scratch on the TREC-COVID corpus using Gensim's Word2Vec implementation. Parameters: 200-dimensional embeddings, window size 5, minimum word count 2, trained for 5 epochs.
+
+\textbf{2. BioWord2Vec:} Pre-trained model (BioWordVec\_PubMed\_MIMICIII\_d200) trained on 1.5 million biomedical words from PubMed and MIMIC-III. This model provides domain-specific embeddings without requiring training on our corpus.
+
+\textbf{3. BioWord2Vec Fine-tuned:} The pre-trained BioWord2Vec model further fine-tuned on TREC-COVID for 5 epochs. We initialized the model with pre-trained weights for common vocabulary (69,868 words) and learned embeddings for 11,357 new words specific to TREC-COVID.
+
+\textbf{Document Representation:} For all Word2Vec variants, documents are represented by averaging word embeddings. We combine title and text, tokenize using NLTK, remove stopwords, and compute the mean embedding vector. Queries are processed identically.
+
+\subsubsection{Deep Averaging Network (DAN)}
+\textbf{Architecture:} We implemented a bi-encoder architecture where queries and documents share the same encoder. The encoder consists of:
+\begin{itemize}
+    \item Input layer: BioWord2Vec embeddings (200 dimensions)
+    \item Hidden layer: Fully connected layer (300 dimensions) with ReLU activation
+    \item Output layer: Document/query embedding (200 dimensions)
+\end{itemize}
+
+\textbf{Training:} We used triplet margin loss with margin=0.5. For each query, we created triplets (query, positive document, negative document) based on Qrels relevance scores. Positive documents have relevance $\geq$ 1, negative documents have relevance = 0. The model was trained for 5 epochs with Adam optimizer (learning rate = 0.001).
+
+\textbf{Challenges:} With only 50 queries and limited positive examples per query, creating diverse triplets was challenging. We used random negative sampling, which may not provide optimal hard negatives.
+
+\subsubsection{Transformer Models}
+
+\textbf{1. BioBERT (Standard):} We used the \texttt{dmis-lab/biobert-base-cased-v1.1} model from Hugging Face. Documents and queries are tokenized with a maximum length of 512 tokens. We extract the [CLS] token embedding (768 dimensions) as the document/query representation. No fine-tuning was performed for the retrieval task.
+
+\textbf{2. Sentence-BERT (S-PubMedBert):} We used \texttt{pritamdeka/S-PubMedBert-MS-MARCO}, a Siamese BERT network fine-tuned on MS-MARCO (general IR) and PubMed (biomedical domain). This model is specifically optimized for cosine similarity in semantic search. Documents and queries are encoded using \texttt{model.encode()}, which returns normalized embeddings (768 dimensions) ready for cosine similarity computation.
+
+\textbf{Key Difference:} Sentence-BERT embeddings are optimized for semantic similarity through contrastive learning on pairs of similar/dissimilar texts. BioBERT's [CLS] token is trained for classification tasks, not similarity search.
+
+\subsection{Evaluation Metric}
+All models were evaluated using \textbf{NDCG@10} (Normalized Discounted Cumulative Gain at 10), which prioritizes highly relevant documents at the top of the ranking list. NDCG accounts for both relevance and ranking position, making it ideal for IR evaluation. We report mean NDCG@10 across all 50 queries, along with standard deviation, minimum, and maximum scores.
+
+\section{Experiments and Results}
+
+\subsection{Experimental Setup}
+All experiments were conducted on a standard CPU environment. For transformer models, we processed documents in batches to manage memory efficiently. Pre-computed document vectors were saved to disk (\texttt{models/}) to enable rapid query evaluation without recomputing embeddings.
+
+Results for each model were saved in JSON format (\texttt{results/}) containing:
+\begin{itemize}
+    \item Mean, min, max, and standard deviation of NDCG@10
+    \item Individual NDCG@10 scores for each of the 50 queries
+    \item Model-specific metadata (embedding dimensions, training epochs, etc.)
+\end{itemize}
+
+\subsection{Performance Comparison}
+The comparative results of all implemented models are summarized in Table~\ref{tab:results}.
+
+\begin{table}[h]
+\caption{Performance Comparison (Mean NDCG@10 across 50 queries)}
+\label{tab:results}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} \\
+\midrule
+TF-IDF (Baseline) & 0.5868 & 0.3350 & 0.0000 & 1.0000 \\
+Word2Vec (Corpus) & 0.6099 & 0.3301 & 0.0000 & 1.0000 \\
+BioWord2Vec (Pre-trained) & 0.7366 & 0.3029 & 0.0000 & 1.0000 \\
+BioWord2Vec (Fine-tuned) & 0.6259 & 0.3263 & 0.0000 & 1.0000 \\
+DAN & 0.6630 & 0.2696 & 0.0000 & 1.0000 \\
+BioBERT (Standard) & 0.2886 & 0.3454 & 0.0000 & 1.0000 \\
+\textbf{Sentence-BERT} & \textbf{0.8171} & \textbf{0.2305} & \textbf{0.0000} & \textbf{0.9986} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Detailed Analysis}
+
+\textbf{1. TF-IDF Baseline:} Achieved 0.5868 mean NDCG@10 with high variance (std=0.3350), indicating inconsistent performance across queries. Some queries achieved perfect scores (max=1.0) when exact term matching was sufficient, while others failed completely (min=0.0) due to vocabulary mismatch.
+
+\textbf{2. Word2Vec (Corpus-trained):} Modest improvement (+3.9\%) over TF-IDF. The model learned some semantic relationships within the TREC-COVID corpus but lacked general biomedical knowledge. Performance variance remained high (std=0.3301).
+
+\textbf{3. BioWord2Vec (Pre-trained):} Significant improvement (+25.5\% vs baseline, +20.8\% vs corpus-trained Word2Vec). The pre-trained model's biomedical vocabulary (1.5M words from PubMed/MIMIC-III) effectively captured domain-specific semantics. Lower variance (std=0.3029) indicates more consistent performance.
+
+\textbf{4. BioWord2Vec (Fine-tuned):} Surprisingly, fine-tuning degraded performance (-15.0\% vs pre-trained version). Despite learning 11,357 new TREC-COVID-specific words, the model likely overfitted to the training corpus, losing the generalizability of pre-trained embeddings.
+
+\textbf{5. DAN:} Achieved 0.6630 NDCG@10 (+13.0\% vs baseline) but underperformed compared to simple BioWord2Vec averaging (-10.0\%). The neural architecture's complexity required more training data than available (50 queries). Lower variance (std=0.2696) suggests the model learned some general patterns but lacked query-specific adaptation.
+
+\textbf{6. BioBERT (Standard):} Catastrophic failure (0.2886 NDCG@10, -50.8\% vs baseline). The [CLS] token embedding, designed for classification, is not optimized for cosine similarity in dense retrieval. Without task-specific fine-tuning, BioBERT embeddings are misaligned for semantic search.
+
+\textbf{7. Sentence-BERT:} Best performance (0.8171 NDCG@10, +39.2\% vs baseline, +10.9\% vs BioWord2Vec). The model's optimization for semantic similarity, combined with biomedical domain pre-training, effectively bridges the vocabulary gap. Lowest variance (std=0.2305) indicates robust and consistent performance across diverse queries.
+
+\section{Discussion}
+
+\subsection{Success of Semantic Search}
+The results confirm that semantic models generally outperform keyword matching. \textbf{Sentence-BERT} achieved the highest score (0.8171), demonstrating the power of contextual embeddings optimized for cosine similarity. It effectively bridges the vocabulary gap between lay queries and medical texts through:
+\begin{itemize}
+    \item Domain-specific pre-training on PubMed
+    \item Task-specific optimization for semantic similarity (MS-MARCO)
+    \item Normalized embeddings designed for cosine similarity
+\end{itemize}
+
+\subsection{The Importance of Pre-training}
+\textbf{BioWord2Vec} (0.7366) significantly outperformed the Word2Vec model trained only on the specific corpus (0.6099). This highlights that for specialized domains, transferring knowledge from massive external datasets (PubMed, MIMIC-III) is more effective than training on a smaller, specific dataset. The pre-trained model's 1.5M word vocabulary captures biomedical relationships that would require orders of magnitude more data to learn from scratch.
+
+\subsection{Failures and Challenges}
+
+\subsubsection{BioBERT Failure}
+The standard BioBERT model performed poorly (0.2886). This failure is attributed to several factors:
+\begin{itemize}
+    \item \textbf{Task Mismatch:} The [CLS] token is trained for classification, not similarity search. Its embedding space is not optimized for cosine similarity between queries and documents.
+    \item \textbf{No Fine-tuning:} Without task-specific fine-tuning on retrieval pairs, BioBERT embeddings lack the alignment necessary for effective dense retrieval.
+    \item \textbf{Embedding Normalization:} Raw BERT embeddings are not normalized, making cosine similarity less meaningful compared to models explicitly trained for similarity.
+\end{itemize}
+
+This result highlights a critical lesson: \textit{domain expertise alone is insufficient; task-specific optimization is essential}.
+
+\subsubsection{Overfitting in Trainable Models}
+Both the Fine-tuned BioWord2Vec (0.6259) and the DAN model (0.6630) showed lower performance than the pre-trained BioWord2Vec. With only 50 queries available for training/validation, these models likely suffered from overfitting, learning noise rather than generalizable patterns.
+
+\textbf{Fine-tuned BioWord2Vec:} Despite learning 11,357 new TREC-COVID-specific words, the model's performance degraded. Possible explanations:
+\begin{itemize}
+    \item Overfitting to corpus-specific patterns that don't generalize
+    \item Loss of pre-trained knowledge through excessive fine-tuning (5 epochs)
+    \item Insufficient regularization or early stopping
+\end{itemize}
+
+\textbf{DAN Model:} The neural architecture's capacity exceeded the available training data. With only 50 queries and limited positive examples per query, the model could not learn robust query-document relationships. The triplet loss formulation may have also suffered from poor negative sampling strategies.
+
+\subsection{Implementation Insights}
+
+\subsubsection{Evaluation Framework Benefits}
+Our reusable evaluation framework (\texttt{functions.py}) provided several advantages:
+\begin{itemize}
+    \item \textbf{Consistency:} All models evaluated with identical search and scoring logic
+    \item \textbf{Reproducibility:} Standardized evaluation ensures fair comparison
+    \item \textbf{Efficiency:} Pre-computed document vectors enable rapid experimentation
+\end{itemize}
+
+\subsubsection{Computational Considerations}
+\begin{itemize}
+    \item \textbf{TF-IDF:} Fastest inference, sparse representations enable efficient search
+    \item \textbf{Word2Vec:} Moderate speed, requires tokenization and averaging
+    \item \textbf{DAN:} Slowest due to neural forward passes, but enables learning
+    \item \textbf{Transformers:} Moderate speed with batch processing, but requires significant memory for 171K documents
+\end{itemize}
+
+\section{Conclusion and Future Work}
+This study evaluated multiple IR strategies for the TREC-COVID challenge, ranging from classical lexical methods to state-of-the-art neural architectures. We demonstrated that \textbf{Sentence-BERT} is the most effective approach (NDCG@10: 0.8171), leveraging both domain-specific pre-training and an architecture optimized for semantic similarity.
+
+\subsection{Key Findings}
+\begin{enumerate}
+    \item \textbf{Domain-specific pre-training is crucial:} BioWord2Vec (+25.5\%) and Sentence-BERT (+39.2\%) significantly outperform generic models.
+    \item \textbf{Task-specific optimization matters:} Sentence-BERT's similarity-focused training outperforms BioBERT's classification-focused embeddings by 183\%.
+    \item \textbf{Model complexity requires data:} Trainable models (DAN, fine-tuned W2V) underperform simpler approaches when training data is limited (50 queries).
+    \item \textbf{Simple can be effective:} BioWord2Vec averaging (0.7366) outperforms complex neural architectures (DAN: 0.6630) in low-data scenarios.
+\end{enumerate}
+
+\subsection{Future Work}
+A major limitation observed was the tendency of trainable models (DAN, Fine-tuned W2V) to overfit due to the small number of queries (50). Future research should focus on:
+
+\textbf{1. Data Augmentation:} Techniques such as using Large Language Models (LLMs) to synthetically generate variations of queries and pseudo-relevance judgments could expand the training set. This would allow for robust training of deeper architectures without the risk of overfitting observed in this study.
+
+\textbf{2. Hard Negative Mining:} For triplet-based training (DAN), implementing sophisticated negative sampling strategies could improve learning efficiency. Hard negatives (documents that are similar but not relevant) provide more informative training signals than random negatives.
+
+\textbf{3. Cross-Domain Transfer:} Exploring transfer learning from other biomedical IR datasets (e.g., TREC Genomics, BioASQ) could provide additional training signals while maintaining domain relevance.
+
+\textbf{4. Hybrid Approaches:} Combining lexical (TF-IDF) and semantic (Sentence-BERT) signals through learned fusion mechanisms could capture both exact matches and semantic relationships.
+
+\textbf{5. Query Expansion:} Pre-processing queries with medical term expansion (e.g., mapping "loss of smell" to "anosmia") could improve performance for models that struggle with vocabulary mismatch.
+
+\textbf{6. Fine-tuning Strategies:} Investigating optimal fine-tuning protocols for BioBERT on retrieval tasks, including contrastive learning objectives and appropriate learning rates, could bridge the performance gap with Sentence-BERT.
+
+\subsection{Broader Implications}
+This study highlights the importance of matching model architecture and training objectives to the target task. While BioBERT excels at biomedical text understanding, its standard configuration fails for retrieval without task-specific adaptation. This underscores the need for specialized models (like Sentence-BERT) or careful fine-tuning when applying general-purpose architectures to specific IR scenarios.
+
+% --- Bibliographie ---
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
+
