@@ -1,7 +1,7 @@
-\documentclass[sigconf]{acmart}
+\documentclass[sigconf,nonacm]{acmart}
 
 % --- Configuration et Packages ---
-\usepackage{booktabs} % Pour de beaux tableaux
+\usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{algorithm}
@@ -20,13 +20,7 @@
     language=Python
 }
 
-% Suppression des méta-données de conférence pour le rendu "propre"
-\settopmatter{printacmref=false}
-\setcopyright{none}
-\renewcommand\footnotetextcopyrightpermission[1]{}
-\pagestyle{plain}
-
-% --- Fichier de Bibliographie intégré (pour faciliter la compilation) ---
+% --- Fichier de Bibliographie intégré ---
 \begin{filecontents}{references.bib}
 @article{vorhees2021trec,
   title={TREC-COVID: constructing a pandemic information retrieval test collection},
@@ -36,9 +30,7 @@
   number={1},
   pages={1--12},
   year={2021},
-  publisher={ACM New York, NY, USA},
-  url={https://dl.acm.org/doi/10.1145/3451964.3451965},
-  doi={10.1145/3451964.3451965}
+  publisher={ACM New York, NY, USA}
 }
 
 @inproceedings{reimers2019sentence,
@@ -46,9 +38,7 @@
   author={Reimers, Nils and Gurevych, Iryna},
   booktitle={Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing},
   pages={3982--3992},
-  year={2019},
-  url={https://arxiv.org/abs/1908.10084},
-  doi={10.18653/v1/D19-1410}
+  year={2019}
 }
 
 @article{lee2020biobert,
@@ -59,17 +49,14 @@
   number={4},
   pages={1234--1240},
   year={2020},
-  publisher={Oxford University Press},
-  url={https://academic.oup.com/bioinformatics/article/36/4/1234/5566506},
-  doi={10.1093/bioinformatics/btz682}
+  publisher={Oxford University Press}
 }
 
 @article{mikolov2013efficient,
   title={Efficient estimation of word representations in vector space},
   author={Mikolov, Tomas and Chen, Kai and Corrado, Greg and Dean, Jeffrey},
   journal={arXiv preprint arXiv:1301.3781},
-  year={2013},
-  url={https://arxiv.org/abs/1301.3781}
+  year={2013}
 }
 
 @inproceedings{iyyer2015deep,
@@ -77,17 +64,14 @@
   author={Iyyer, Mohit and Manjunatha, Varun and Boyd-Graber, Jordan and Daum{\'e} III, Hal},
   booktitle={Proceedings of the 53rd Annual Meeting of the Association for Computational Linguistics},
   pages={1681--1691},
-  year={2015},
-  url={https://aclanthology.org/P15-1162},
-  doi={10.3115/v1/P15-1162}
+  year={2015}
 }
 
 @article{thakur2021beir,
   title={BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models},
   author={Thakur, Nandan and Reimers, Nils and R{\"u}ckl{\'e}, Andreas and Srivastava, Abhishek and Gurevych, Iryna},
   journal={arXiv preprint arXiv:2104.08663},
-  year={2021},
-  url={https://arxiv.org/abs/2104.08663}
+  year={2021}
 }
 \end{filecontents}
 
@@ -97,20 +81,59 @@
 % --- Titre et Auteurs ---
 \title{Information Retrieval in the Medical Domain: A Comparative Study on TREC-COVID}
 
-\author{Nom Prénom}
+\author{Lounès KEBDI}
 \affiliation{%
-  \institution{University Name}
-  \city{City}
+  \institution{Université Paris-Saclay}
+  \city{Gif-sur-Yvette}
   \country{France}
 }
-\email{email@student.edu}
+\email{lounes.kebdi@universite-paris-saclay.fr}
+
+\author{Lubin LONGUEPEE}
+\affiliation{%
+  \institution{Université Paris-Saclay}
+  \city{Gif-sur-Yvette}
+  \country{France}
+}
+\email{lubin.longuepee@universite-paris-saclay.fr}
+
+\author{Raphael LEONARDI}
+\affiliation{%
+  \institution{Université Paris-Saclay}
+  \city{Gif-sur-Yvette}
+  \country{France}
+}
+\email{raphael.leonardi@universite-paris-saclay.fr}
 
 % --- Abstract ---
 \begin{abstract}
 The COVID-19 pandemic highlighted the critical need for efficient Information Retrieval (IR) systems capable of navigating rapidly expanding scientific literature. A major challenge in this domain is the "vocabulary mismatch" problem, where queries in natural language do not match the technical jargon used in medical papers. This report presents a comprehensive comparative analysis of various IR models on the TREC-COVID dataset, ranging from classical lexical approaches (TF-IDF) to state-of-the-art neural models. We evaluate the performance of Word2Vec (general and biomedical), Deep Averaging Networks (DAN), and Transformer-based models (BioBERT, Sentence-BERT). Our experiments demonstrate that while generic embeddings provide minor improvements over baselines, domain-specific semantic models like Sentence-BERT achieve superior performance (NDCG@10 of 0.8171), significantly outperforming standard BERT implementations. We provide detailed analysis of implementation challenges, including overfitting issues with trainable models and the critical importance of task-specific fine-tuning for transformer architectures.
 \end{abstract}
 
-% --- Mots Clés ---
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10002951.10003260.10003282</concept_id>
+<concept_desc>Information systems~Information retrieval</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010147.10010178.10010179</concept_id>
+<concept_desc>Computing methodologies~Natural language processing</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010147.10010257.10010258.10010259</concept_id>
+<concept_desc>Computing methodologies~Neural networks</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Information systems~Information retrieval}
+\ccsdesc[500]{Computing methodologies~Natural language processing}
+\ccsdesc[300]{Computing methodologies~Neural networks}
+
 \keywords{Information Retrieval, TREC-COVID, NLP, Sentence-BERT, Word Embeddings, Biomedical Text Mining}
 
 \maketitle
@@ -148,7 +171,7 @@ We utilized the TREC-COVID dataset \cite{thakur2021beir}, accessed through the B
 \begin{itemize}
     \item \textbf{Corpus:} 171,332 scientific articles from the CORD-19 collection, each containing a title and text (abstract or full content).
     \item \textbf{Queries:} 50 distinct topics in natural language, representing real-world information needs.
-    \item \textbf{Qrels:} Expert relevance judgments used as Ground Truth, with relevance scores on a 0-2 scale (0: not relevant, 1: partially relevant, 2: highly relevant).
+    \item \textbf{Qrels:} Expert relevance judgments used as Ground Truth, with relevance scores on a -1-2 scale (-1: Document not evaluate, 0: not relevant, 1: partially relevant, 2: highly relevant).
 \end{itemize}
 
 The dataset presents significant challenges: documents use technical medical terminology, while queries often employ lay language. This vocabulary mismatch is the primary obstacle our models must overcome.
@@ -288,23 +311,7 @@ Both the Fine-tuned BioWord2Vec (0.6259) and the DAN model (0.6630) showed lower
 
 \textbf{DAN Model:} The neural architecture's capacity exceeded the available training data. With only 50 queries and limited positive examples per query, the model could not learn robust query-document relationships. The triplet loss formulation may have also suffered from poor negative sampling strategies.
 
-\subsection{Implementation Insights}
 
-\subsubsection{Evaluation Framework Benefits}
-Our reusable evaluation framework (\texttt{functions.py}) provided several advantages:
-\begin{itemize}
-    \item \textbf{Consistency:} All models evaluated with identical search and scoring logic
-    \item \textbf{Reproducibility:} Standardized evaluation ensures fair comparison
-    \item \textbf{Efficiency:} Pre-computed document vectors enable rapid experimentation
-\end{itemize}
-
-\subsubsection{Computational Considerations}
-\begin{itemize}
-    \item \textbf{TF-IDF:} Fastest inference, sparse representations enable efficient search
-    \item \textbf{Word2Vec:} Moderate speed, requires tokenization and averaging
-    \item \textbf{DAN:} Slowest due to neural forward passes, but enables learning
-    \item \textbf{Transformers:} Moderate speed with batch processing, but requires significant memory for 171K documents
-\end{itemize}
 
 \section{Conclusion and Future Work}
 This study evaluated multiple IR strategies for the TREC-COVID challenge, ranging from classical lexical methods to state-of-the-art neural architectures. We demonstrated that \textbf{Sentence-BERT} is the most effective approach (NDCG@10: 0.8171), leveraging both domain-specific pre-training and an architecture optimized for semantic similarity.
@@ -340,4 +347,3 @@ This study highlights the importance of matching model architecture and training
 \bibliography{references}
 
 \end{document}
-
