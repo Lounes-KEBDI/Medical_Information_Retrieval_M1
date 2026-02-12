@@ -1,18 +1,18 @@
-# 🔍 Projet de Recherche d'Information Médicale - TREC-COVID
+# 🔍 Medical Information Retrieval Project - TREC-COVID
 
-Ce projet implémente et compare différentes approches de recherche d'information sur le dataset TREC-COVID, un corpus biomédical spécialisé sur le COVID-19.
+This project implements and compares different information retrieval approaches on the TREC-COVID dataset, a biomedical corpus specialized on COVID-19.
 
-## 📋 Structure du Projet
+## 📋 Project Structure
 
 ### 1. `download.py`
-**Fonction** : Script Python pour télécharger automatiquement le dataset TREC-COVID depuis BEIR (Benchmarking IR).
+**Function**: Python script to automatically download the TREC-COVID dataset from BEIR (Benchmarking IR).
 
-- Utilise la bibliothèque `beir` pour télécharger et extraire le dataset
-- Sauvegarde les données dans le dossier `data/trec-covid/trec-covid`
-- Vérifie l'intégrité des données après téléchargement
-- Affiche un résumé du corpus (nombre de documents, requêtes, jugements de pertinence)
+- Uses the `beir` library to download and extract the dataset
+- Saves data in the `data/trec-covid/trec-covid` folder
+- Verifies data integrity after download
+- Displays a summary of the corpus (number of documents, queries, relevance judgments)
 
-**Utilisation** :
+**Usage**:
 ```bash
 python download.py
 ```
@@ -20,272 +20,271 @@ python download.py
 ---
 
 ### 2. `explore_data.ipynb`
-**Fonction** : Notebook d'exploration et d'analyse du dataset TREC-COVID.
+**Function**: Notebook for exploring and analyzing the TREC-COVID dataset.
 
-- Charge et explore la structure du corpus de documents
-- Analyse les requêtes de test (50 requêtes)
-- Examine les jugements de pertinence (Qrels)
-- Fournit des statistiques descriptives sur les données
-- Visualise la distribution des longueurs de documents, fréquences de mots, etc.
+- Loads and explores the document corpus structure
+- Analyzes test queries (50 queries)
+- Examines relevance judgments (Qrels)
+- Provides descriptive statistics on the data
+- Visualizes document length distributions, word frequencies, etc.
 
-**Objectif** : Comprendre la structure et les caractéristiques du dataset avant de développer les modèles.
+**Objective**: Understand the structure and characteristics of the dataset before developing models.
 
 ---
 
 ### 3. `explictation_dataset.md`
-**Fonction** : Documentation détaillée sur le dataset TREC-COVID.
+**Function**: Detailed documentation on the TREC-COVID dataset.
 
-- Description du corpus (171,332 documents scientifiques sur le COVID-19)
-- Explication des requêtes (50 requêtes de recherche)
-- Description des Qrels (jugements de pertinence par des experts)
-- Format des données et structure des fichiers
-- Métriques d'évaluation utilisées (NDCG@10)
+- Corpus description (171,332 scientific documents on COVID-19)
+- Query explanation (50 search queries)
+- Qrels description (expert relevance judgments)
+- Data format and file structure
+- Evaluation metrics used (NDCG@10)
 
-**Objectif** : Fournir une référence complète sur le dataset pour comprendre le contexte du projet.
+**Objective**: Provide a complete reference on the dataset to understand the project context.
 
 ---
 
 ### 4. `functions.py`
-**Fonction** : Module Python contenant les fonctions généralistes réutilisables pour la recherche et l'évaluation.
+**Function**: Python module containing reusable general-purpose functions for search and evaluation.
 
-**Fonctions principales** :
-- `search()` : Recherche de documents pertinents pour une requête (modèle-agnostique)
-- `top_k_ideal()` : Obtient le top-k idéal basé sur les Qrels (ground truth)
-- `evaluate_single_query()` : Évalue une requête unique avec NDCG@k
-- `evaluate_model()` : Évalue un modèle sur toutes les requêtes et retourne les statistiques
+**Main functions**:
+- `search()`: Search for relevant documents for a query (model-agnostic)
+- `top_k_ideal()`: Get the ideal top-k based on Qrels (ground truth)
+- `evaluate_single_query()`: Evaluate a single query with NDCG@k
+- `evaluate_model()`: Evaluate a model on all queries and return statistics
 
-**Avantages** :
-- Code réutilisable pour tous les modèles (TF-IDF, Word2Vec, BioWord2Vec, BERT, etc.)
-- Évaluation cohérente et standardisée
-- Facilite la comparaison entre différents modèles
+**Advantages**:
+- Reusable code for all models (TF-IDF, Word2Vec, BioWord2Vec, BERT, etc.)
+- Consistent and standardized evaluation
+- Facilitates comparison between different models
 
 ---
 
 ### 5. `tf-idf.ipynb` - **BASELINE**
-**Fonction** : Implémentation du modèle baseline TF-IDF (Term Frequency-Inverse Document Frequency).
+**Function**: Implementation of the TF-IDF (Term Frequency-Inverse Document Frequency) baseline model.
 
-**Fonctionnement** :
-- Représente chaque document et requête comme un vecteur TF-IDF
-- Calcule la similarité cosinus entre vecteurs de requête et documents
-- Retourne les top-k documents les plus similaires
+**How it works**:
+- Represents each document and query as a TF-IDF vector
+- Computes cosine similarity between query and document vectors
+- Returns the top-k most similar documents
 
-**Pourquoi baseline** :
-- Méthode classique et simple de recherche d'information
-- Pas d'apprentissage, uniquement basé sur les fréquences de mots
-- Performance de référence pour comparer les autres modèles
+**Why baseline**:
+- Classic and simple information retrieval method
+- No learning, only based on word frequencies
+- Reference performance for comparing other models
 
-**Résultats** :
-- **Mean NDCG@10 : 0.5868**
-- **Statut** : Baseline de référence
+**Results**:
+- **Mean NDCG@10: 0.5868**
+- **Status**: Reference baseline
 
 ---
 
 ### 6. `word2vec.ipynb`
-**Fonction** : Implémentation de Word2Vec générique entraîné sur le corpus TREC-COVID.
+**Function**: Implementation of generic Word2Vec trained on the TREC-COVID corpus.
 
-**Fonctionnement** :
-- Entraîne un modèle Word2Vec sur les documents TREC-COVID
-- Crée des embeddings de mots (vecteurs de 200 dimensions)
-- Représente les documents par la moyenne des vecteurs de mots
-- Utilise la similarité cosinus pour la recherche
+**How it works**:
+- Trains a Word2Vec model on TREC-COVID documents
+- Creates word embeddings (200-dimensional vectors)
+- Represents documents by averaging word vectors
+- Uses cosine similarity for search
 
-**Pourquoi on pensait que ça allait fonctionner** :
-- Word2Vec capture les relations sémantiques entre mots
-- Les embeddings de mots permettent de capturer la similarité sémantique au-delà de la correspondance exacte
-- Meilleur que TF-IDF pour comprendre le sens des mots
+**Why we thought it would work**:
+- Word2Vec captures semantic relationships between words
+- Word embeddings allow capturing semantic similarity beyond exact matching
+- Better than TF-IDF for understanding word meaning
 
-**Résultats** :
-- **Mean NDCG@10 : 0.6099**
-- **Amélioration vs TF-IDF** : +0.0231 (+3.9%)
-- **Statut** : ✅ Légèrement meilleur que la baseline
+**Results**:
+- **Mean NDCG@10: 0.6099**
+- **Improvement vs TF-IDF**: +0.0231 (+3.9%)
+- **Status**: ✅ Slightly better than baseline
 
-**Raison de la performance modeste** :
-- Word2Vec générique n'est pas spécialisé dans le domaine médical
-- Vocabulaire médical spécifique mal capturé par un modèle générique
-- Entraînement uniquement sur TREC-COVID (corpus limité)
+**Reason for modest performance**:
+- Generic Word2Vec is not specialized in the medical domain
+- Specific medical vocabulary poorly captured by a generic model
+- Training only on TREC-COVID (limited corpus)
 
 ---
 
 ### 7. `bioword2vec.ipynb`
-**Fonction** : Implémentation de BioWord2Vec pré-entraîné sur des textes biomédicaux (PubMed, MIMIC-III).
+**Function**: Implementation of pre-trained BioWord2Vec on biomedical texts (PubMed, MIMIC-III).
 
-**Fonctionnement** :
-- Charge un modèle Word2Vec pré-entraîné sur 1.5M de mots biomédicaux
-- Utilise les embeddings pré-entraînés pour représenter les documents
-- Combine titre + texte des documents
-- Représente les documents par la moyenne des vecteurs de mots BioWord2Vec
+**How it works**:
+- Loads a Word2Vec model pre-trained on 1.5M biomedical words
+- Uses pre-trained embeddings to represent documents
+- Combines title + text of documents
+- Represents documents by averaging BioWord2Vec word vectors
 
-**Pourquoi on pensait que ça allait fonctionner** :
-- Modèle spécialisé dans le domaine médical (vocabulaire biomédical capturé)
-- Pré-entraînement sur un large corpus médical (meilleure compréhension sémantique)
-- Adapté au domaine spécifique de TREC-COVID (textes médicaux)
+**Why we thought it would work**:
+- Model specialized in the medical domain (biomedical vocabulary captured)
+- Pre-training on a large medical corpus (better semantic understanding)
+- Adapted to the specific domain of TREC-COVID (medical texts)
 
-**Résultats** :
-- **Mean NDCG@10 : 0.7366**
-- **Amélioration vs TF-IDF** : +0.1498 (+25.5%)
-- **Amélioration vs Word2Vec** : +0.1267 (+20.8%)
-- **Statut** : ✅ Meilleur modèle jusqu'à présent (avant Sentence-BERT)
+**Results**:
+- **Mean NDCG@10: 0.7366**
+- **Improvement vs TF-IDF**: +0.1498 (+25.5%)
+- **Improvement vs Word2Vec**: +0.1267 (+20.8%)
+- **Status**: ✅ Best model so far (before Sentence-BERT)
 
-**Pourquoi ça fonctionne bien** :
-- Spécialisation médicale du modèle pré-entraîné
-- Vocabulaire médical riche et adapté au domaine
-- Bon compromis entre simplicité et performance
+**Why it works well**:
+- Medical specialization of the pre-trained model
+- Rich medical vocabulary adapted to the domain
+- Good trade-off between simplicity and performance
 
 ---
 
 ### 8. `bioword2vec_finetune.ipynb`
-**Fonction** : Fine-tuning de BioWord2Vec sur le corpus TREC-COVID (approche hybride).
+**Function**: Fine-tuning of BioWord2Vec on the TREC-COVID corpus (hybrid approach).
 
-**Fonctionnement** :
-- Charge BioWord2Vec pré-entraîné
-- Crée un nouveau modèle Word2Vec avec les mêmes paramètres
-- Initialise les mots communs avec les poids pré-entraînés
-- Entraîne le modèle sur TREC-COVID pendant 5 époques
-- Les nouveaux mots spécifiques à TREC-COVID sont appris pendant l'entraînement
+**How it works**:
+- Loads pre-trained BioWord2Vec
+- Creates a new Word2Vec model with the same parameters
+- Initializes common words with pre-trained weights
+- Trains the model on TREC-COVID for 5 epochs
+- New words specific to TREC-COVID are learned during training
 
-**Pourquoi on pensait que ça allait fonctionner** :
-- Adaptation du modèle pré-entraîné aux spécificités de TREC-COVID
-- Apprentissage de nouveaux termes médicaux spécifiques au COVID-19
-- Combinaison des connaissances générales (pré-entraînement) et spécifiques (fine-tuning)
+**Why we thought it would work**:
+- Adaptation of the pre-trained model to TREC-COVID specificities
+- Learning new medical terms specific to COVID-19
+- Combination of general knowledge (pre-training) and specific knowledge (fine-tuning)
 
-**Résultats** :
-- **Mean NDCG@10 : 0.6259**
-- **Amélioration vs TF-IDF** : +0.0391 (+6.7%)
-- **Dégradation vs BioWord2Vec** : -0.1107 (-15.0%)
-- **Statut** : ❌ Moins bon que BioWord2Vec pré-entraîné
+**Results**:
+- **Mean NDCG@10: 0.6259**
+- **Improvement vs TF-IDF**: +0.0391 (+6.7%)
+- **Degradation vs BioWord2Vec**: -0.1107 (-15.0%)
+- **Status**: ❌ Worse than pre-trained BioWord2Vec
 
-**Raison potentielle de l'échec** :
-- **Overfitting** : Le modèle s'est trop spécialisé sur TREC-COVID et a perdu la généralité du pré-entraînement
-- **Trop d'époques** : 5 époques peuvent être excessives pour un fine-tuning, causant une dérive des embeddings
-- **Données limitées** : TREC-COVID seul n'est peut-être pas suffisant pour améliorer le modèle pré-entraîné
-- **Modèle déjà optimal** : BioWord2Vec pré-entraîné était déjà bien adapté au domaine médical, le fine-tuning n'apporte pas de valeur ajoutée
+**Potential reason for failure**:
+- **Overfitting**: The model became too specialized on TREC-COVID and lost the generality of pre-training
+- **Too many epochs**: 5 epochs may be excessive for fine-tuning, causing embedding drift
+- **Limited data**: TREC-COVID alone may not be sufficient to improve the pre-trained model
+- **Model already optimal**: Pre-trained BioWord2Vec was already well adapted to the medical domain, fine-tuning adds no value
 
 ---
 
 ### 9. `DAN.ipynb`
-**Fonction** : Implémentation d'un Deep Averaging Network (DAN) avec architecture Bi-Encoder.
+**Function**: Implementation of a Deep Averaging Network (DAN) with Bi-Encoder architecture.
 
-**Fonctionnement** :
-- Initialise les embeddings avec BioWord2Vec pré-entraîné
-- Architecture DAN : moyenne des embeddings de mots → couches cachées → embedding de document
-- Architecture Bi-Encoder (siamoise) : encodeurs séparés pour requêtes et documents
-- Entraînement avec TripletMarginLoss sur triplets (requête, document positif, document négatif)
-- Optimise la similarité cosinus entre requêtes et documents pertinents
+**How it works**:
+- Initializes embeddings with pre-trained BioWord2Vec
+- DAN architecture: average of word embeddings → hidden layers → document embedding
+- Bi-Encoder (siamese) architecture: separate encoders for queries and documents
+- Training with TripletMarginLoss on triplets (query, positive document, negative document)
+- Optimizes cosine similarity between queries and relevant documents
 
-**Pourquoi on pensait que ça allait fonctionner** :
-- Architecture neuronale profonde pour capturer des relations complexes
-- Apprentissage supervisé avec les Qrels (meilleure adaptation aux données)
-- Fine-tuning des embeddings pour la tâche de recherche spécifique
-- Modèles de deep learning souvent meilleurs que les méthodes classiques
+**Why we thought it would work**:
+- Deep neural architecture to capture complex relationships
+- Supervised learning with Qrels (better adaptation to data)
+- Fine-tuning embeddings for the specific search task
+- Deep learning models often better than classical methods
 
-**Résultats** :
-- **Mean NDCG@10 : 0.6630**
-- **Amélioration vs TF-IDF** : +0.0762 (+13.0%)
-- **Dégradation vs BioWord2Vec** : -0.0736 (-10.0%)
-- **Statut** : ❌ Moins bon que BioWord2Vec pré-entraîné
+**Results**:
+- **Mean NDCG@10: 0.6630**
+- **Improvement vs TF-IDF**: +0.0762 (+13.0%)
+- **Degradation vs BioWord2Vec**: -0.0736 (-10.0%)
+- **Status**: ❌ Worse than pre-trained BioWord2Vec
 
-**Raison potentielle de l'échec** :
-- **Données d'entraînement limitées** : Seulement 50 requêtes avec Qrels, pas assez pour entraîner un modèle profond efficacement
-- **Overfitting** : Le modèle s'est probablement sur-adapté aux données d'entraînement limitées
-- **Architecture trop complexe** : Pour ce volume de données, un modèle simple (BioWord2Vec) peut être plus efficace
-- **Hyperparamètres non optimisés** : Les paramètres (learning rate, batch size, nombre d'époques) n'ont peut-être pas été optimisés
-- **Triplets mal sélectionnés** : La stratégie de sélection des triplets négatifs peut influencer significativement les performances
+**Potential reason for failure**:
+- **Limited training data**: Only 50 queries with Qrels, not enough to train a deep model effectively
+- **Overfitting**: The model likely overfitted to the limited training data
+- **Architecture too complex**: For this data volume, a simple model (BioWord2Vec) can be more effective
+- **Unoptimized hyperparameters**: Parameters (learning rate, batch size, number of epochs) may not have been optimized
+- **Poorly selected triplets**: The negative triplet selection strategy can significantly influence performance
 
 ---
 
 ### 10. `BioBERT.ipynb`
-**Fonction** : Implémentation de BioBERT (BERT spécialisé médical) pour la recherche d'information.
+**Function**: Implementation of BioBERT (medical-specialized BERT) for information retrieval.
 
-**Fonctionnement** :
-- Charge le modèle BioBERT pré-entraîné (dmis-lab/biobert-base-cased-v1.1)
-- Utilise le token [CLS] pour représenter chaque document et requête
-- Crée des embeddings contextuels (768 dimensions)
-- Traitement par batch optimisé pour GPU
+**How it works**:
+- Loads pre-trained BioBERT model (dmis-lab/biobert-base-cased-v1.1)
+- Uses the [CLS] token to represent each document and query
+- Creates contextual embeddings (768 dimensions)
+- Batch processing optimized for GPU
 
-**Pourquoi on pensait que ça allait fonctionner** :
-- BERT capture le contexte bidirectionnel (meilleure compréhension sémantique)
-- BioBERT spécialisé médical (vocabulaire biomédical)
-- Embeddings contextuels adaptés à chaque occurrence de mot
-- Modèles Transformer souvent meilleurs que Word2Vec
+**Why we thought it would work**:
+- BERT captures bidirectional context (better semantic understanding)
+- Medical-specialized BioBERT (biomedical vocabulary)
+- Contextual embeddings adapted to each word occurrence
+- Transformer models often better than Word2Vec
 
-**Résultats** :
-- **Mean NDCG@10 : 0.2886**
-- **Dégradation vs TF-IDF** : -0.2982 (-50.8%)
-- **Dégradation vs BioWord2Vec** : -0.4480 (-60.8%)
-- **Statut** : ❌ Très mauvais résultat
+**Results**:
+- **Mean NDCG@10: 0.2886**
+- **Degradation vs TF-IDF**: -0.2982 (-50.8%)
+- **Degradation vs BioWord2Vec**: -0.4480 (-60.8%)
+- **Status**: ❌ Very poor result
 
-**Raison potentielle de l'échec** :
-- **Token [CLS] non optimisé** : Le token [CLS] de BERT n'est pas optimisé pour la recherche d'information, il est conçu pour la classification
-- **Pas de fine-tuning** : BioBERT n'a pas été fine-tuné pour la tâche de recherche sémantique
-- **Embeddings non normalisés** : Les embeddings bruts de BERT ne sont pas optimisés pour la similarité cosinus
-- **Manque d'optimisation** : Contrairement à Sentence-BERT, BioBERT standard n'est pas entraîné sur des paires de textes similaires/dissimilaires
-- **Problème d'alignement** : Les embeddings de requêtes et documents ne sont pas alignés dans l'espace sémantique pour la recherche
+**Potential reason for failure**:
+- **[CLS] token not optimized**: BERT's [CLS] token is not optimized for information retrieval, it is designed for classification
+- **No fine-tuning**: BioBERT was not fine-tuned for semantic search task
+- **Unnormalized embeddings**: Raw BERT embeddings are not optimized for cosine similarity
+- **Lack of optimization**: Unlike Sentence-BERT, standard BioBERT is not trained on similar/dissimilar text pairs
+- **Alignment problem**: Query and document embeddings are not aligned in semantic space for search
 
 ---
 
 ### 11. `SentenceBERT.ipynb`
-**Fonction** : Implémentation de Sentence-BERT médical optimisé pour la recherche sémantique.
+**Function**: Implementation of medical Sentence-BERT optimized for semantic search.
 
-**Fonctionnement** :
-- Charge Sentence-BERT médical pré-entraîné (pritamdeka/S-PubMedBert-MS-MARCO)
-- Modèle optimisé spécifiquement pour la similarité sémantique entre textes
-- Crée des embeddings de documents et requêtes en une seule ligne (`model.encode()`)
-- Embeddings déjà normalisés et optimisés pour la similarité cosinus
-- Pas besoin de gérer tokens, [CLS], normalisation manuelle
+**How it works**:
+- Loads pre-trained medical Sentence-BERT (pritamdeka/S-PubMedBert-MS-MARCO)
+- Model optimized specifically for semantic similarity between texts
+- Creates document and query embeddings in one line (`model.encode()`)
+- Embeddings already normalized and optimized for cosine similarity
+- No need to handle tokens, [CLS], manual normalization
 
-**Pourquoi on pensait que ça allait fonctionner** :
-- Sentence-BERT entraîné spécifiquement pour la recherche sémantique (pas juste pour comprendre)
-- Optimisé pour maximiser la similarité cosinus entre textes similaires
-- Modèle médical spécialisé (PubMed + MS-MARCO)
-- Plus simple et plus rapide que BERT standard
-- Architecture optimisée pour la production
+**Why we thought it would work**:
+- Sentence-BERT trained specifically for semantic search (not just for understanding)
+- Optimized to maximize cosine similarity between similar texts
+- Medical-specialized model (PubMed + MS-MARCO)
+- Simpler and faster than standard BERT
+- Production-optimized architecture
 
-**Résultats** :
-- **Mean NDCG@10 : 0.8171**
-- **Amélioration vs TF-IDF** : +0.2303 (+39.2%)
-- **Amélioration vs BioWord2Vec** : +0.0805 (+10.9%)
-- **Statut** : ✅ **MEILLEUR MODÈLE** actuel
+**Results**:
+- **Mean NDCG@10: 0.8171**
+- **Improvement vs TF-IDF**: +0.2303 (+39.2%)
+- **Improvement vs BioWord2Vec**: +0.0805 (+10.9%)
+- **Status**: ✅ **BEST MODEL** currently
 
-**Pourquoi ça fonctionne si bien** :
-- **Optimisation spécifique** : Entraîné sur des paires de textes similaires/dissimilaires pour maximiser la similarité
-- **Spécialisation médicale** : Modèle adapté au domaine biomédical
-- **Simplicité** : Pas de fine-tuning nécessaire, modèle prêt à l'emploi
-- **Embeddings normalisés** : Optimisés directement pour la similarité cosinus
-- **Meilleure compréhension contextuelle** : BERT capture mieux le contexte que Word2Vec
+**Why it works so well**:
+- **Specific optimization**: Trained on similar/dissimilar text pairs to maximize similarity
+- **Medical specialization**: Model adapted to the biomedical domain
+- **Simplicity**: No fine-tuning needed, ready-to-use model
+- **Normalized embeddings**: Directly optimized for cosine similarity
+- **Better contextual understanding**: BERT captures context better than Word2Vec
 
 ---
 
-## 📊 Résumé des Performances
+## 📊 Performance Summary
 
-| Modèle | Mean NDCG@10 | Amélioration vs Baseline | Statut |
-|--------|--------------|--------------------------|--------|
+| Model | Mean NDCG@10 | Improvement vs Baseline | Status |
+|-------|--------------|-------------------------|--------|
 | **TF-IDF** (baseline) | 0.5868 | - | Baseline |
-| **Word2Vec** | 0.6099 | +3.9% | ✅ Légèrement meilleur |
-| **BioWord2Vec** | 0.7366 | +25.5% | ✅ Très bon |
-| **BioWord2Vec Fine-tuned** | 0.6259 | +6.7% | ❌ Moins bon |
-| **DAN** | 0.6630 | +13.0% | ❌ Moins bon |
-| **BioBERT** | 0.2886 | -50.8% | ❌ Très mauvais |
-| **Sentence-BERT** | **0.8171** | **+39.2%** | ✅ **MEILLEUR** |
+| **Word2Vec** | 0.6099 | +3.9% | ✅ Slightly better |
+| **BioWord2Vec** | 0.7366 | +25.5% | ✅ Very good |
+| **BioWord2Vec Fine-tuned** | 0.6259 | +6.7% | ❌ Worse |
+| **DAN** | 0.6630 | +13.0% | ❌ Worse |
+| **BioBERT** | 0.2886 | -50.8% | ❌ Very poor |
+| **Sentence-BERT** | **0.8171** | **+39.2%** | ✅ **BEST** |
 
 ## 🎯 Conclusions
 
-1. **Sentence-BERT médical** est le meilleur modèle avec un NDCG@10 de **0.8171**
-2. **BioWord2Vec pré-entraîné** est un excellent compromis simplicité/performance (0.7366)
-3. Le **fine-tuning** n'a pas amélioré BioWord2Vec, probablement à cause de l'overfitting
-4. Les **modèles neuronaux profonds** (DAN) nécessitent plus de données pour être efficaces
-5. Les **modèles spécialisés médicaux** (BioWord2Vec, Sentence-BERT) surpassent les modèles génériques
-6. **BioBERT standard** obtient de très mauvais résultats (0.2886) car il n'est pas optimisé pour la recherche sémantique, contrairement à Sentence-BERT qui est spécialement entraîné pour cette tâche
+1. **Medical Sentence-BERT** is the best model with an NDCG@10 of **0.8171**
+2. **Pre-trained BioWord2Vec** is an excellent simplicity/performance trade-off (0.7366)
+3. **Fine-tuning** did not improve BioWord2Vec, likely due to overfitting
+4. **Deep neural models** (DAN) require more data to be effective
+5. **Medical-specialized models** (BioWord2Vec, Sentence-BERT) outperform generic models
+6. **Standard BioBERT** achieves very poor results (0.2886) because it is not optimized for semantic search, unlike Sentence-BERT which is specifically trained for this task
 
-## 🚀 Utilisation
+## 🚀 Usage
 
-1. Télécharger le dataset : `python download.py`
-2. Explorer les données : Exécuter `explore_data.ipynb`
-3. Exécuter les modèles : Exécuter les notebooks dans l'ordre souhaité
-4. Comparer les résultats : Les résultats sont sauvegardés dans `results/`
+1. Download the dataset: `python download.py`
+2. Explore the data: Run `explore_data.ipynb`
+3. Run the models: Execute the notebooks in the desired order
+4. Compare results: Results are saved in `results/`
 
 ## 📝 Notes
 
-- Tous les modèles utilisent les fonctions généralistes de `functions.py` pour une évaluation cohérente
-- Les résultats sont sauvegardés automatiquement dans `results/` au format JSON
-- Le dataset TREC-COVID contient 171,332 documents et 50 requêtes de test
-
+- All models use the general-purpose functions from `functions.py` for consistent evaluation
+- Results are automatically saved in `results/` in JSON format
+- The TREC-COVID dataset contains 171,332 documents and 50 test queries

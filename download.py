@@ -1,5 +1,5 @@
 """
-Script pour télécharger le dataset TREC-COVID depuis BEIR
+Script to download the TREC-COVID dataset from BEIR
 """
 import os
 from beir import util, datasets
@@ -7,47 +7,47 @@ from beir.datasets.data_loader import GenericDataLoader
 
 def download_treccovid():
     """
-    Télécharge le dataset TREC-COVID depuis BEIR et le sauvegarde dans le dossier data/
+    Downloads the TREC-COVID dataset from BEIR and saves it in the data/ folder
     """
-    # Chemin vers le dossier data
+    # Path to the data folder
     data_dir = "data"
     dataset_name = "trec-covid"
     
-    # Créer le dossier data s'il n'existe pas
+    # Create the data folder if it doesn't exist
     os.makedirs(data_dir, exist_ok=True)
     
-    # Chemin complet pour le dataset
+    # Full path for the dataset
     dataset_path = os.path.join(data_dir, dataset_name)
     
-    print(f"Téléchargement du dataset TREC-COVID depuis BEIR...")
-    print(f"Le dataset sera sauvegardé dans: {dataset_path}")
+    print(f"Downloading TREC-COVID dataset from BEIR...")
+    print(f"The dataset will be saved in: {dataset_path}")
     
-    # Télécharger et extraire le dataset
+    # Download and extract the dataset
     url = "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/trec-covid.zip"
     out_dir = os.path.join(data_dir, dataset_name)
     
-    # Télécharger le dataset
+    # Download the dataset
     data_path = util.download_and_unzip(url, out_dir)
     
-    print(f"\nDataset téléchargé avec succès!")
-    print(f"Chemin: {data_path}")
+    print(f"\nDataset downloaded successfully!")
+    print(f"Path: {data_path}")
     
-    # Charger les données pour vérifier
-    print("\nVérification du chargement des données...")
+    # Load the data to verify
+    print("\nVerifying data loading...")
     corpus, queries, qrels = GenericDataLoader(data_path).load(split="test")
     
     print(f"\n✓ Corpus: {len(corpus)} documents")
-    print(f"✓ Requêtes: {len(queries)} requêtes")
-    print(f"✓ Qrels: {len(qrels)} jugements de pertinence")
+    print(f"✓ Queries: {len(queries)} queries")
+    print(f"✓ Qrels: {len(qrels)} relevance judgments")
     
     return data_path
 
 if __name__ == "__main__":
     try:
         download_treccovid()
-        print("\n✓ Téléchargement terminé avec succès!")
+        print("\n✓ Download completed successfully!")
     except Exception as e:
-        print(f"\n✗ Erreur lors du téléchargement: {e}")
-        print("\nAssurez-vous d'avoir installé BEIR:")
+        print(f"\n✗ Error during download: {e}")
+        print("\nMake sure you have installed BEIR:")
         print("pip install beir")
 

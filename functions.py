@@ -102,50 +102,50 @@ def evaluate_single_query(
     """
     Evaluate a single query using NDCG score from scikit-learn.
     
-    Compare les résultats du modèle avec les scores réels des experts (Qrels) pour cette requête.
+    Compares model results with expert scores (Qrels) for this query.
     
     Args:
-        query_id: ID de la requête à évaluer
-        model_results: Liste de tuples (doc_id, score_prédit) retournés par le modèle, triés par score décroissant
-        qrels: Dictionnaire {query_id: {doc_id: score_réel}} contenant les jugements des experts
-        k: Nombre de documents à considérer pour NDCG@k (default: 10)
+        query_id: ID of the query to evaluate
+        model_results: List of tuples (doc_id, predicted_score) returned by the model, sorted by descending score
+        qrels: Dictionary {query_id: {doc_id: real_score}} containing expert judgments
+        k: Number of documents to consider for NDCG@k (default: 10)
     
     Returns:
-        Score NDCG@k entre 0 et 1
+        NDCG@k score between 0 and 1
     """
-    # Limiter aux top-k résultats du modèle
+    # Limit to top-k model results
     model_results = model_results[:k]
     
-    # Récupérer les scores réels des experts pour cette requête depuis les Qrels
+    # Get real expert scores for this query from Qrels
     query_qrels = qrels.get(query_id, {})
     
-    # Construire y_score (scores prédits par le modèle) et y_true (scores réels des experts)
-    # Les deux listes doivent être dans le même ordre (ordre retourné par le modèle)
-    y_score = []  # Scores prédits par le modèle
-    y_true = []   # Scores réels des experts pour ces mêmes documents
+    # Build y_score (scores predicted by the model) and y_true (real expert scores)
+    # Both lists must be in the same order (order returned by the model)
+    y_score = []  # Scores predicted by the model
+    y_true = []   # Real expert scores for these same documents
     
     for doc_id, predicted_score in model_results:
-        # Score prédit par le modèle
+        # Score predicted by the model
         y_score.append(predicted_score)
         
-        # Score réel des experts pour ce document (0 si le document n'est pas dans les Qrels)
+        # Real expert score for this document (0 if document is not in Qrels)
         real_relevance_score = query_qrels.get(doc_id, 0)
         y_true.append(real_relevance_score)
     
-    # Convertir en arrays numpy
+    # Convert to numpy arrays
     y_score = np.array(y_score)
     y_true = np.array(y_true)
     
-    # Reshape pour sklearn (besoin de arrays 2D)
+    # Reshape for sklearn (needs 2D arrays)
     y_score = y_score.reshape(1, -1)
     y_true = y_true.reshape(1, -1)
     
-    # Gérer le cas où il n'y a pas de documents pertinents
+    # Handle the case where there are no relevant documents
     if y_true.size == 0 or y_score.size == 0 or np.sum(y_true) == 0:
         return 0.0
     
-    # Calculer NDCG@k avec scikit-learn
-    # Compare les scores prédits (y_score) avec les scores réels (y_true)
+    # Calculate NDCG@k with scikit-learn
+    # Compares predicted scores (y_score) with real scores (y_true)
     ndcg = ndcg_score(y_true, y_score, k=k)
     
     return float(ndcg)

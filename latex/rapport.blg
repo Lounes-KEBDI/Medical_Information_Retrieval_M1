@@ -1,0 +1,69 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: rapport.aux
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: references.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Warning--no number and no volume in formal2021splade
+Warning--no number and no volume in gu2020domain
+Warning--page numbers missing in both pages and numpages fields in gu2020domain
+Warning--empty publisher in iyyer2015deep
+Warning--empty address in iyyer2015deep
+Warning--no number and no volume in mikolov2013efficient
+Warning--page numbers missing in both pages and numpages fields in mikolov2013efficient
+Warning--empty publisher in reimers2019sentence
+Warning--empty address in reimers2019sentence
+Warning--no number and no volume in roberts2021searching
+Warning--page numbers missing in both pages and numpages fields in roberts2021searching
+Warning--no number and no volume in thakur2021beir
+Warning--page numbers missing in both pages and numpages fields in thakur2021beir
+You've used 10 entries,
+            6056 wiz_defined-function locations,
+            1539 strings with 20420 characters,
+and the built_in function-call counts, 12982 in all, are:
+= -- 1817
+> -- 542
+< -- 0
++ -- 188
+- -- 182
+* -- 990
+:= -- 1273
+add.period$ -- 50
+call.type$ -- 10
+change.case$ -- 97
+chr.to.int$ -- 10
+cite$ -- 23
+duplicate$ -- 1005
+empty$ -- 709
+format.name$ -- 222
+if$ -- 3277
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 42
+newline$ -- 117
+num.names$ -- 70
+pop$ -- 435
+preamble$ -- 1
+purify$ -- 177
+quote$ -- 0
+skip$ -- 346
+stack$ -- 0
+substring$ -- 823
+swap$ -- 100
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 188
+warning$ -- 13
+while$ -- 50
+width$ -- 0
+write$ -- 222
+(There were 13 warnings)

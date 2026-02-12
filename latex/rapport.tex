@@ -9,6 +9,10 @@
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{hyperref}
+\usepackage{url}
+\usepackage{breakurl}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,calc}
 
 % Configuration pour les listings de code
 \lstset{
@@ -73,10 +77,46 @@
   journal={arXiv preprint arXiv:2104.08663},
   year={2021}
 }
+
+@article{roberts2021searching,
+  title={Searching for Scientific Evidence in a Pandemic: An Overview of TREC-COVID},
+  author={Roberts, Kirk and Alam, Tasmeer and Bedrick, Steven and Demner-Fushman, Dina and Lo, Kyle and Soboroff, Ian and Voorhees, Ellen and Wang, Lucy Lu and Hersh, William R},
+  journal={arXiv preprint arXiv:2104.09632},
+  year={2021}
+}
+
+@article{gu2020domain,
+  title={Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing},
+  author={Gu, Yu and Tinn, Robert and Cheng, Hao and Lucas, Michael and Usuyama, Naoto and Liu, Xiaodong and Naumann, Tristan and Gao, Jianfeng and Poon, Hoifung},
+  journal={arXiv preprint arXiv:2007.15779},
+  year={2020}
+}
+
+@article{jin2023medcpt,
+  title={MedCPT: Contrastive Pre-trained Transformers with Large-scale PubMed Search Logs for Zero-shot Biomedical Information Retrieval},
+  author={Jin, Qiao and Dhingra, Bhuwan and Cohen, William W and Lu, Xinghua},
+  journal={Bioinformatics},
+  volume={39},
+  number={11},
+  pages={btad652},
+  year={2023},
+  publisher={Oxford University Press}
+}
+
+@article{formal2021splade,
+  title={SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking},
+  author={Formal, Thibault and Piwowarski, Benjamin and Clinchant, St{\'e}phane},
+  journal={Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  pages={2288--2292},
+  year={2021}
+}
 \end{filecontents}
 
 % --- Début du Document ---
 \begin{document}
+
+% Permettre les césures plus flexibles pour éviter les débordements
+\sloppy
 
 % --- Titre et Auteurs ---
 \title{Information Retrieval in the Medical Domain: A Comparative Study on TREC-COVID}
@@ -145,6 +185,43 @@ The rapid proliferation of scientific literature during the COVID-19 pandemic cr
 
 The core problem addressed in this study is the \textit{vocabulary mismatch}. Users often query for symptoms using lay terms (e.g., "loss of smell"), while scientific documents use precise medical terminology (e.g., "anosmia"). Traditional exact-match systems (like TF-IDF) fail to capture these semantic equivalences, leading to poor retrieval performance.
 
+Figure~\ref{fig:vocab_mismatch} illustrates this vocabulary mismatch problem and how semantic models address it.
+
+\begin{figure}[h]
+\centering
+\scalebox{0.75}{
+\begin{tikzpicture}[node distance=1cm, auto, font=\small]
+    % User query
+    \node[rectangle, draw, fill=blue!20, text width=2.2cm, align=center] (query) {User Query\\"loss of smell"};
+    
+    % TF-IDF path
+    \node[rectangle, draw, fill=red!20, text width=2.2cm, align=center, below left=0.8cm and 1.5cm of query] (tfidf) {TF-IDF\\Exact Match};
+    \node[rectangle, draw, fill=red!40, text width=2.2cm, align=center, below=0.8cm of tfidf] (tfidf_fail) {No Match\\(Different words)};
+    
+    % Semantic path
+    \node[rectangle, draw, fill=green!10, text width=2.2cm, align=center, below right=0.8cm and 1.5cm of query] (semantic) {Semantic Model\\(Word2Vec/BERT)};
+    \node[rectangle, draw, fill=green!15, text width=2.2cm, align=center, below=0.8cm of semantic] (semantic_success) {Match Found\\(Same meaning)};
+    
+    % Document
+    \node[rectangle, draw, fill=gray!20, text width=2.2cm, align=center, below=2.5cm of query] (doc) {Document\\"anosmia"};
+    
+    % Arrows
+    \draw[->, thick] (query) -- node[left, font=\tiny] {Exact match} (tfidf);
+    \draw[->, thick] (tfidf) -- (tfidf_fail);
+    \draw[->, thick, red] (tfidf_fail) -- node[right, font=\tiny] {\textcolor{red}{X}} (doc);
+    
+    \draw[->, thick] (query) -- node[right, font=\tiny] {Semantic} (semantic);
+    \draw[->, thick] (semantic) -- (semantic_success);
+    \draw[->, thick, green!60!black] (semantic_success) -- node[left, font=\tiny] {\textcolor{green!60!black}{$\checkmark$}} (doc);
+    
+    % Legend
+    \node[below=0.3cm of doc, text width=5cm, align=center, font=\tiny] {\textcolor{red}{Red: TF-IDF fails} \quad \textcolor{green!60!black}{Green: Semantic succeeds}};
+\end{tikzpicture}
+}
+\caption{Vocabulary Mismatch Problem: Traditional exact-match systems (TF-IDF) fail when query terms differ from document terms, even when they share the same meaning. Semantic models capture semantic equivalence through embeddings.}
+\label{fig:vocab_mismatch}
+\end{figure}
+
 This report presents a comprehensive comparison of multiple approaches to solve this issue:
 \begin{itemize}
     \item \textbf{Baseline:} TF-IDF (Term Frequency-Inverse Document Frequency).
@@ -155,14 +232,18 @@ This report presents a comprehensive comparison of multiple approaches to solve 
 
 Our contributions include: (1) a systematic evaluation framework using reusable functions for consistent model comparison, (2) detailed analysis of why certain approaches fail despite their theoretical advantages, and (3) insights into the trade-offs between model complexity and data availability in specialized domains.
 
+The complete source code, notebooks, and experimental results are available at: \url{https://github.com/Lounes-KEBDI/medical_information_retrieval.git}
+
 \section{Related Work}
+The TREC-COVID challenge \cite{roberts2021searching} was established in response to the urgent need for effective information retrieval systems during the COVID-19 pandemic. Conducted over five rounds from April to July 2020, this shared task attracted participation from 92 unique teams and generated 556 individual submissions. The challenge aimed to construct a pandemic search test collection and evaluate IR methods specifically for COVID-19 scientific literature. The dataset consists of 50 topics (queries) representing real-world information needs, with topics added progressively to target emerging research questions as the pandemic evolved. This comprehensive evaluation framework has become a standard benchmark for biomedical information retrieval systems, highlighting the critical importance of semantic understanding in medical search scenarios.
+
 Information retrieval has evolved from lexical matching to semantic understanding. The Vector Space Model, exemplified by TF-IDF, remains a strong baseline but lacks semantic depth. It relies on exact word matching and term frequency statistics, making it vulnerable to vocabulary mismatch problems.
 
-The introduction of Word Embeddings, such as Word2Vec \cite{mikolov2013efficient}, allowed for vector representations where similar words are close in space. These static embeddings capture semantic relationships but lack contextual understanding. In the medical domain, models pre-trained on biomedical corpora, such as BioBERT \cite{lee2020biobert}, have shown that domain adaptation is crucial for performance.
+The introduction of Word Embeddings, such as Word2Vec \cite{mikolov2013efficient}, allowed for vector representations where similar words are close in space. These static embeddings capture semantic relationships but lack contextual understanding. In the medical domain, models pre-trained on biomedical corpora, such as BioBERT \cite{lee2020biobert}, have shown that domain adaptation is crucial for performance. However, BioBERT inherits the vocabulary of general BERT, causing medical terms to be fragmented into subword tokens. PubMedBERT \cite{gu2020domain} addresses this by training from scratch on biomedical corpora, constructing a domain-specific vocabulary that avoids term fragmentation and achieves superior performance on biomedical benchmarks.
 
 Deep Averaging Networks (DAN) \cite{iyyer2015deep} combine word embeddings with neural architectures, averaging word vectors and passing them through hidden layers. While effective for classification tasks, their performance in retrieval depends heavily on training data availability.
 
-More recently, Reimers et al. introduced Sentence-BERT \cite{reimers2019sentence}, optimizing BERT architectures specifically for semantic similarity tasks using siamese networks. This approach addresses a critical limitation of standard BERT: the [CLS] token embedding is not optimized for cosine similarity in dense retrieval scenarios.
+More recently, Reimers et al. introduced Sentence-BERT \cite{reimers2019sentence}, optimizing BERT architectures specifically for semantic similarity tasks using siamese networks. This approach addresses a critical limitation of standard BERT: the [CLS] token embedding is not optimized for cosine similarity in dense retrieval scenarios. Subsequent work has extended this paradigm to biomedical domains, with models like MedCPT \cite{jin2023medcpt} leveraging contrastive learning on large-scale search logs to align query and document embeddings. Hybrid approaches combining lexical (BM25) and semantic (dense) signals, such as SPLADE \cite{formal2021splade}, have also shown promise by learning sparse lexical representations that maintain interpretability while benefiting from contextual understanding.
 
 \section{Methodology}
 
@@ -171,12 +252,61 @@ We utilized the TREC-COVID dataset \cite{thakur2021beir}, accessed through the B
 \begin{itemize}
     \item \textbf{Corpus:} 171,332 scientific articles from the CORD-19 collection, each containing a title and text (abstract or full content).
     \item \textbf{Queries:} 50 distinct topics in natural language, representing real-world information needs.
-    \item \textbf{Qrels:} Expert relevance judgments used as Ground Truth, with relevance scores on a -1-2 scale (-1: Document not evaluate, 0: not relevant, 1: partially relevant, 2: highly relevant).
+    \item \textbf{Qrels:} Expert relevance judgments used as Ground Truth, with relevance scores on a -1--2 scale (-1: Document not evaluated, 0: not relevant, 1: partially relevant, 2: highly relevant).
 \end{itemize}
 
 The dataset presents significant challenges: documents use technical medical terminology, while queries often employ lay language. This vocabulary mismatch is the primary obstacle our models must overcome.
 
 \subsection{Evaluation Framework}
+To ensure consistent and fair comparison across all models, we implemented a reusable evaluation framework in \texttt{functions.py}. This framework provides:
+
+Figure~\ref{fig:ir_pipeline} illustrates the general information retrieval pipeline used across all models.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=1.5cm, auto]
+    % Query
+    \node[rectangle, draw, fill=blue!20, text width=2.5cm, align=center] (query) {User Query\\"loss of smell"};
+    
+    % Corpus
+    \node[rectangle, draw, fill=gray!20, text width=2.5cm, align=center, right=3cm of query] (corpus) {Corpus\\171,332 docs};
+    
+    % Vectorization
+    \node[rectangle, draw, fill=orange!20, text width=2.5cm, align=center, below=1.5cm of query] (query_vec) {Query\\Vector};
+    \node[rectangle, draw, fill=orange!20, text width=2.5cm, align=center, below=1.5cm of corpus] (doc_vecs) {Document\\Vectors};
+    
+    % Similarity
+    \node[circle, draw, fill=green!20, text width=2cm, align=center, below=1.5cm of query_vec] (similarity) {Cosine\\Similarity};
+    
+    % Ranking
+    \node[rectangle, draw, fill=purple!20, text width=2.5cm, align=center, below=1.5cm of similarity] (ranking) {Top-K\\Ranking};
+    
+    % Results
+    \node[rectangle, draw, fill=red!20, text width=2.5cm, align=center, below=1.5cm of ranking] (results) {Retrieved\\Documents};
+    
+    % Arrows
+    \draw[->, thick] (query) -- (query_vec);
+    \draw[->, thick] (corpus) -- (doc_vecs);
+    \draw[->, thick] (query_vec) -- (similarity);
+    \draw[->, thick] (doc_vecs) -- (similarity);
+    \draw[->, thick] (similarity) -- (ranking);
+    \draw[->, thick] (ranking) -- (results);
+    
+    % Model annotation
+    \node[above=0.3cm of query_vec, text width=3cm, align=center] {\small \textbf{Model-specific}\\
+    TF-IDF / Word2Vec /\\
+    DAN / BERT / etc.};
+    
+    % Evaluation
+    \node[rectangle, draw, fill=yellow!20, text width=2.5cm, align=center, right=2cm of results] (eval) {Evaluation\\NDCG@10};
+    \draw[->, thick, dashed] (results) -- (eval);
+    \node[rectangle, draw, fill=gray!30, text width=2.5cm, align=center, above=1cm of eval] (qrels) {Qrels\\Ground Truth};
+    \draw[->, thick, dashed] (qrels) -- (eval);
+\end{tikzpicture}
+\caption{Information Retrieval Pipeline: All models follow the same pipeline: (1) vectorize query and documents using model-specific methods, (2) compute cosine similarity, (3) rank documents, (4) retrieve top-K results, and (5) evaluate against expert judgments (Qrels).}
+\label{fig:ir_pipeline}
+\end{figure}
+
 To ensure consistent and fair comparison across all models, we implemented a reusable evaluation framework in \texttt{functions.py}. This framework provides:
 
 \textbf{1. Model-Agnostic Search Function:} The \texttt{search()} function accepts any vectorizer/model and performs top-k retrieval using cosine similarity. This abstraction allows us to evaluate TF-IDF, Word2Vec, and transformer models with identical search logic.
@@ -209,6 +339,55 @@ To ensure consistent and fair comparison across all models, we implemented a reu
     \item Hidden layer: Fully connected layer (300 dimensions) with ReLU activation
     \item Output layer: Document/query embedding (200 dimensions)
 \end{itemize}
+
+Figure~\ref{fig:dan_architecture} illustrates the DAN architecture and encoding process.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=1.2cm, auto]
+    % Input text
+    \node[rectangle, draw, fill=blue!20, text width=2.5cm, align=center] (input) {Text\\"loss of smell"};
+    
+    % Tokenization
+    \node[rectangle, draw, fill=yellow!20, text width=2.5cm, align=center, below=0.8cm of input] (token) {Tokenization\\``loss'', ``smell''};
+    
+    % Embeddings
+    \node[rectangle, draw, fill=orange!20, text width=2.5cm, align=center, below=0.8cm of token] (embed) {BioWord2Vec\\Embeddings\\200d each};
+    
+    % Average
+    \node[circle, draw, fill=purple!20, text width=2cm, align=center, below=0.8cm of embed] (avg) {Average\\200d};
+    
+    % MLP
+    \node[rectangle, draw, fill=green!20, text width=3cm, align=center, below=0.8cm of avg] (mlp) {MLP\\
+    Linear(200→300)\\
+    ReLU + Dropout\\
+    Linear(300→200)};
+    
+    % Output
+    \node[rectangle, draw, fill=red!20, text width=2.5cm, align=center, below=0.8cm of mlp] (output) {Output\\Embedding\\200d};
+    
+    % Arrows
+    \draw[->, thick] (input) -- (token);
+    \draw[->, thick] (token) -- (embed);
+    \draw[->, thick] (embed) -- (avg);
+    \draw[->, thick] (avg) -- (mlp);
+    \draw[->, thick] (mlp) -- (output);
+    
+    % Bi-encoder annotation
+    \node[right=2cm of mlp, text width=3cm, align=left] {\small \textbf{Bi-Encoder:}\\
+    Same encoder for\\
+    queries \& documents\\
+    (shared weights)};
+    
+    % Dimensions annotation
+    \node[left=0.3cm of embed] {\small 200d};
+    \node[left=0.3cm of avg] {\small 200d};
+    \node[right=0.3cm of mlp] {\small 300d};
+    \node[left=0.3cm of output] {\small 200d};
+\end{tikzpicture}
+\caption{DAN Architecture: The encoder processes text through tokenization, BioWord2Vec embeddings, averaging, and a Multi-Layer Perceptron (MLP) to produce optimized 200-dimensional embeddings. The same encoder is used for both queries and documents (bi-encoder architecture).}
+\label{fig:dan_architecture}
+\end{figure}
 
 \textbf{Training:} We used triplet margin loss with margin=0.5. For each query, we created triplets (query, positive document, negative document) based on Qrels relevance scores. Positive documents have relevance $\geq$ 1, negative documents have relevance = 0. The model was trained for 5 epochs with Adam optimizer (learning rate = 0.001).
 
@@ -243,6 +422,8 @@ The comparative results of all implemented models are summarized in Table~\ref{t
 \begin{table}[h]
 \caption{Performance Comparison (Mean NDCG@10 across 50 queries)}
 \label{tab:results}
+\centering
+\small
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Model} & \textbf{Mean} & \textbf{Std} & \textbf{Min} & \textbf{Max} \\
@@ -335,7 +516,7 @@ A major limitation observed was the tendency of trainable models (DAN, Fine-tune
 
 \textbf{4. Hybrid Approaches:} Combining lexical (TF-IDF) and semantic (Sentence-BERT) signals through learned fusion mechanisms could capture both exact matches and semantic relationships.
 
-\textbf{5. Query Expansion:} Pre-processing queries with medical term expansion (e.g., mapping "loss of smell" to "anosmia") could improve performance for models that struggle with vocabulary mismatch.
+\textbf{5. Query Expansion:} Pre-processing queries with medical term expansion (e.g., mapping ``loss of smell'' to ``anosmia'') could improve performance for models that struggle with vocabulary mismatch.
 
 \textbf{6. Fine-tuning Strategies:} Investigating optimal fine-tuning protocols for BioBERT on retrieval tasks, including contrastive learning objectives and appropriate learning rates, could bridge the performance gap with Sentence-BERT.
 
