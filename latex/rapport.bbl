@@ -38,131 +38,79 @@
 
 \bibitem[Formal et~al\mbox{.}(2021)]%
         {formal2021splade}
-\bibfield{author}{\bibinfo{person}{Thibault Formal}, \bibinfo{person}{Benjamin
-  Piwowarski}, {and} \bibinfo{person}{St{\'e}phane Clinchant}.}
-  \bibinfo{year}{2021}\natexlab{}.
-\newblock \showarticletitle{SPLADE: Sparse Lexical and Expansion Model for
-  First Stage Ranking}.
-\newblock \bibinfo{journal}{\emph{Proceedings of the 44th International ACM
-  SIGIR Conference on Research and Development in Information Retrieval}}
-  (\bibinfo{year}{2021}), \bibinfo{pages}{2288--2292}.
+\bibfield{author}{\bibinfo{person}{Thibault Formal}, \bibinfo{person}{Benjamin Piwowarski}, {and} \bibinfo{person}{St{\'e}phane Clinchant}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval}} (\bibinfo{year}{2021}), \bibinfo{pages}{2288--2292}.
 \newblock
 
 
 \bibitem[Gu et~al\mbox{.}(2020)]%
         {gu2020domain}
-\bibfield{author}{\bibinfo{person}{Yu Gu}, \bibinfo{person}{Robert Tinn},
-  \bibinfo{person}{Hao Cheng}, \bibinfo{person}{Michael Lucas},
-  \bibinfo{person}{Naoto Usuyama}, \bibinfo{person}{Xiaodong Liu},
-  \bibinfo{person}{Tristan Naumann}, \bibinfo{person}{Jianfeng Gao}, {and}
-  \bibinfo{person}{Hoifung Poon}.} \bibinfo{year}{2020}\natexlab{}.
-\newblock \showarticletitle{Domain-Specific Language Model Pretraining for
-  Biomedical Natural Language Processing}.
-\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2007.15779}}
-  (\bibinfo{year}{2020}).
+\bibfield{author}{\bibinfo{person}{Yu Gu}, \bibinfo{person}{Robert Tinn}, \bibinfo{person}{Hao Cheng}, \bibinfo{person}{Michael Lucas}, \bibinfo{person}{Naoto Usuyama}, \bibinfo{person}{Xiaodong Liu}, \bibinfo{person}{Tristan Naumann}, \bibinfo{person}{Jianfeng Gao}, {and} \bibinfo{person}{Hoifung Poon}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2007.15779}} (\bibinfo{year}{2020}).
 \newblock
 
 
 \bibitem[Iyyer et~al\mbox{.}(2015)]%
         {iyyer2015deep}
-\bibfield{author}{\bibinfo{person}{Mohit Iyyer}, \bibinfo{person}{Varun
-  Manjunatha}, \bibinfo{person}{Jordan Boyd-Graber}, {and} \bibinfo{person}{Hal
-  Daum{\'e}~III}.} \bibinfo{year}{2015}\natexlab{}.
-\newblock \showarticletitle{Deep unordered composition rivals syntactic methods
-  for text classification}. In \bibinfo{booktitle}{\emph{Proceedings of the
-  53rd Annual Meeting of the Association for Computational Linguistics}}.
-  \bibinfo{pages}{1681--1691}.
+\bibfield{author}{\bibinfo{person}{Mohit Iyyer}, \bibinfo{person}{Varun Manjunatha}, \bibinfo{person}{Jordan Boyd-Graber}, {and} \bibinfo{person}{Hal Daum{\'e}~III}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Deep unordered composition rivals syntactic methods for text classification}. In \bibinfo{booktitle}{\emph{Proceedings of the 53rd Annual Meeting of the Association for Computational Linguistics}}. \bibinfo{pages}{1681--1691}.
 \newblock
 
 
 \bibitem[Jin et~al\mbox{.}(2023)]%
         {jin2023medcpt}
-\bibfield{author}{\bibinfo{person}{Qiao Jin}, \bibinfo{person}{Bhuwan Dhingra},
-  \bibinfo{person}{William~W Cohen}, {and} \bibinfo{person}{Xinghua Lu}.}
-  \bibinfo{year}{2023}\natexlab{}.
-\newblock \showarticletitle{MedCPT: Contrastive Pre-trained Transformers with
-  Large-scale PubMed Search Logs for Zero-shot Biomedical Information
-  Retrieval}.
-\newblock \bibinfo{journal}{\emph{Bioinformatics}} \bibinfo{volume}{39},
-  \bibinfo{number}{11} (\bibinfo{year}{2023}), \bibinfo{pages}{btad652}.
+\bibfield{author}{\bibinfo{person}{Qiao Jin}, \bibinfo{person}{Bhuwan Dhingra}, \bibinfo{person}{William~W Cohen}, {and} \bibinfo{person}{Xinghua Lu}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{MedCPT: Contrastive Pre-trained Transformers with Large-scale PubMed Search Logs for Zero-shot Biomedical Information Retrieval}.
+\newblock \bibinfo{journal}{\emph{Bioinformatics}} \bibinfo{volume}{39}, \bibinfo{number}{11} (\bibinfo{year}{2023}), \bibinfo{pages}{btad652}.
 \newblock
 
 
 \bibitem[Lee et~al\mbox{.}(2020)]%
         {lee2020biobert}
-\bibfield{author}{\bibinfo{person}{Jinhyuk Lee}, \bibinfo{person}{Wonjin Yoon},
-  \bibinfo{person}{Sungdong Kim}, \bibinfo{person}{Donghyeon Kim},
-  \bibinfo{person}{Sunkyu Kim}, \bibinfo{person}{Chan~Ho So}, {and}
-  \bibinfo{person}{Jaewoo Kang}.} \bibinfo{year}{2020}\natexlab{}.
-\newblock \showarticletitle{BioBERT: a pre-trained biomedical language
-  representation model for biomedical text mining}.
-\newblock \bibinfo{journal}{\emph{Bioinformatics}} \bibinfo{volume}{36},
-  \bibinfo{number}{4} (\bibinfo{year}{2020}), \bibinfo{pages}{1234--1240}.
+\bibfield{author}{\bibinfo{person}{Jinhyuk Lee}, \bibinfo{person}{Wonjin Yoon}, \bibinfo{person}{Sungdong Kim}, \bibinfo{person}{Donghyeon Kim}, \bibinfo{person}{Sunkyu Kim}, \bibinfo{person}{Chan~Ho So}, {and} \bibinfo{person}{Jaewoo Kang}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{BioBERT: a pre-trained biomedical language representation model for biomedical text mining}.
+\newblock \bibinfo{journal}{\emph{Bioinformatics}} \bibinfo{volume}{36}, \bibinfo{number}{4} (\bibinfo{year}{2020}), \bibinfo{pages}{1234--1240}.
 \newblock
 
 
 \bibitem[Mikolov et~al\mbox{.}(2013)]%
         {mikolov2013efficient}
-\bibfield{author}{\bibinfo{person}{Tomas Mikolov}, \bibinfo{person}{Kai Chen},
-  \bibinfo{person}{Greg Corrado}, {and} \bibinfo{person}{Jeffrey Dean}.}
-  \bibinfo{year}{2013}\natexlab{}.
-\newblock \showarticletitle{Efficient estimation of word representations in
-  vector space}.
-\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1301.3781}}
-  (\bibinfo{year}{2013}).
+\bibfield{author}{\bibinfo{person}{Tomas Mikolov}, \bibinfo{person}{Kai Chen}, \bibinfo{person}{Greg Corrado}, {and} \bibinfo{person}{Jeffrey Dean}.} \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{Efficient estimation of word representations in vector space}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1301.3781}} (\bibinfo{year}{2013}).
 \newblock
 
 
 \bibitem[Reimers and Gurevych(2019)]%
         {reimers2019sentence}
-\bibfield{author}{\bibinfo{person}{Nils Reimers} {and} \bibinfo{person}{Iryna
-  Gurevych}.} \bibinfo{year}{2019}\natexlab{}.
-\newblock \showarticletitle{Sentence-BERT: Sentence Embeddings using Siamese
-  BERT-Networks}. In \bibinfo{booktitle}{\emph{Proceedings of the 2019
-  Conference on Empirical Methods in Natural Language Processing}}.
-  \bibinfo{pages}{3982--3992}.
+\bibfield{author}{\bibinfo{person}{Nils Reimers} {and} \bibinfo{person}{Iryna Gurevych}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks}. In \bibinfo{booktitle}{\emph{Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing}}. \bibinfo{pages}{3982--3992}.
 \newblock
 
 
 \bibitem[Roberts et~al\mbox{.}(2021)]%
         {roberts2021searching}
-\bibfield{author}{\bibinfo{person}{Kirk Roberts}, \bibinfo{person}{Tasmeer
-  Alam}, \bibinfo{person}{Steven Bedrick}, \bibinfo{person}{Dina
-  Demner-Fushman}, \bibinfo{person}{Kyle Lo}, \bibinfo{person}{Ian Soboroff},
-  \bibinfo{person}{Ellen Voorhees}, \bibinfo{person}{Lucy~Lu Wang}, {and}
-  \bibinfo{person}{William~R Hersh}.} \bibinfo{year}{2021}\natexlab{}.
-\newblock \showarticletitle{Searching for Scientific Evidence in a Pandemic: An
-  Overview of TREC-COVID}.
-\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2104.09632}}
-  (\bibinfo{year}{2021}).
+\bibfield{author}{\bibinfo{person}{Kirk Roberts}, \bibinfo{person}{Tasmeer Alam}, \bibinfo{person}{Steven Bedrick}, \bibinfo{person}{Dina Demner-Fushman}, \bibinfo{person}{Kyle Lo}, \bibinfo{person}{Ian Soboroff}, \bibinfo{person}{Ellen Voorhees}, \bibinfo{person}{Lucy~Lu Wang}, {and} \bibinfo{person}{William~R Hersh}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Searching for Scientific Evidence in a Pandemic: An Overview of TREC-COVID}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2104.09632}} (\bibinfo{year}{2021}).
 \newblock
 
 
 \bibitem[Thakur et~al\mbox{.}(2021)]%
         {thakur2021beir}
-\bibfield{author}{\bibinfo{person}{Nandan Thakur}, \bibinfo{person}{Nils
-  Reimers}, \bibinfo{person}{Andreas R{\"u}ckl{\'e}}, \bibinfo{person}{Abhishek
-  Srivastava}, {and} \bibinfo{person}{Iryna Gurevych}.}
-  \bibinfo{year}{2021}\natexlab{}.
-\newblock \showarticletitle{BEIR: A Heterogeneous Benchmark for Zero-shot
-  Evaluation of Information Retrieval Models}.
-\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2104.08663}}
-  (\bibinfo{year}{2021}).
+\bibfield{author}{\bibinfo{person}{Nandan Thakur}, \bibinfo{person}{Nils Reimers}, \bibinfo{person}{Andreas R{\"u}ckl{\'e}}, \bibinfo{person}{Abhishek Srivastava}, {and} \bibinfo{person}{Iryna Gurevych}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2104.08663}} (\bibinfo{year}{2021}).
 \newblock
 
 
 \bibitem[Voorhees et~al\mbox{.}(2021)]%
         {vorhees2021trec}
-\bibfield{author}{\bibinfo{person}{Ellen Voorhees}, \bibinfo{person}{Tasmeer
-  Alam}, \bibinfo{person}{Steven Bedrick}, \bibinfo{person}{Dina
-  Demner-Fushman}, \bibinfo{person}{William~R Hersh}, \bibinfo{person}{Jimmy
-  Lin}, \bibinfo{person}{Kyle Lo}, \bibinfo{person}{Kirk Roberts},
-  \bibinfo{person}{Ian Soboroff}, \bibinfo{person}{Lucy~Lu Wang},
-  {et~al\mbox{.}}} \bibinfo{year}{2021}\natexlab{}.
-\newblock \showarticletitle{TREC-COVID: constructing a pandemic information
-  retrieval test collection}.
-\newblock \bibinfo{journal}{\emph{ACM SIGIR Forum}} \bibinfo{volume}{54},
-  \bibinfo{number}{1} (\bibinfo{year}{2021}), \bibinfo{pages}{1--12}.
+\bibfield{author}{\bibinfo{person}{Ellen Voorhees}, \bibinfo{person}{Tasmeer Alam}, \bibinfo{person}{Steven Bedrick}, \bibinfo{person}{Dina Demner-Fushman}, \bibinfo{person}{William~R Hersh}, \bibinfo{person}{Jimmy Lin}, \bibinfo{person}{Kyle Lo}, \bibinfo{person}{Kirk Roberts}, \bibinfo{person}{Ian Soboroff}, \bibinfo{person}{Lucy~Lu Wang}, {et~al\mbox{.}}} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{TREC-COVID: constructing a pandemic information retrieval test collection}.
+\newblock \bibinfo{journal}{\emph{ACM SIGIR Forum}} \bibinfo{volume}{54}, \bibinfo{number}{1} (\bibinfo{year}{2021}), \bibinfo{pages}{1--12}.
 \newblock
 
 

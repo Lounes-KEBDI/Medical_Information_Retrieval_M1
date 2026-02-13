@@ -1,6 +1,6 @@
 \documentclass[sigconf,nonacm]{acmart}
 
-% --- Configuration et Packages ---
+% --- Configuration and Packages ---
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -14,7 +14,7 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,positioning,fit,calc}
 
-% Configuration pour les listings de code
+% Configuration for code listings
 \lstset{
     basicstyle=\ttfamily\small,
     breaklines=true,
@@ -24,7 +24,7 @@
     language=Python
 }
 
-% --- Fichier de Bibliographie intégré ---
+% --- Embedded Bibliography File ---
 \begin{filecontents}{references.bib}
 @article{vorhees2021trec,
   title={TREC-COVID: constructing a pandemic information retrieval test collection},
@@ -112,13 +112,13 @@
 }
 \end{filecontents}
 
-% --- Début du Document ---
+% --- Document Start ---
 \begin{document}
 
-% Permettre les césures plus flexibles pour éviter les débordements
+% Allow more flexible hyphenation to avoid overflow
 \sloppy
 
-% --- Titre et Auteurs ---
+% --- Title and Authors ---
 \title{Information Retrieval in the Medical Domain: A Comparative Study on TREC-COVID}
 
 \author{Lounès KEBDI}
@@ -178,7 +178,7 @@ The COVID-19 pandemic highlighted the critical need for efficient Information Re
 
 \maketitle
 
-% --- Corps du texte ---
+% --- Main Text ---
 
 \section{Introduction}
 The rapid proliferation of scientific literature during the COVID-19 pandemic created an urgent need for specialized Information Retrieval (IR) systems. The TREC-COVID challenge \cite{vorhees2021trec} was established to evaluate the ability of IR systems to retrieve relevant biomedical articles from a corpus of over 171,000 scientific papers.
@@ -235,8 +235,13 @@ Our contributions include: (1) a systematic evaluation framework using reusable 
 The complete source code, notebooks, and experimental results are available at: \url{https://github.com/Lounes-KEBDI/medical_information_retrieval.git}
 
 \section{Related Work}
-The TREC-COVID challenge \cite{roberts2021searching} was established in response to the urgent need for effective information retrieval systems during the COVID-19 pandemic. Conducted over five rounds from April to July 2020, this shared task attracted participation from 92 unique teams and generated 556 individual submissions. The challenge aimed to construct a pandemic search test collection and evaluate IR methods specifically for COVID-19 scientific literature. The dataset consists of 50 topics (queries) representing real-world information needs, with topics added progressively to target emerging research questions as the pandemic evolved. This comprehensive evaluation framework has become a standard benchmark for biomedical information retrieval systems, highlighting the critical importance of semantic understanding in medical search scenarios.
 
+\subsection{TREC-COVID Challenge and Previous Approaches}
+The TREC-COVID challenge \cite{roberts2021searching} was established in response to the urgent need for effective information retrieval systems during the COVID-19 pandemic. Conducted over five rounds from April to July 2020, this shared task attracted participation from 92 unique teams and generated 556 individual submissions. The challenge aimed to construct a pandemic search test collection and evaluate IR methods specifically for COVID-19 scientific literature. The dataset consists of 50 topics (queries) representing real-world information needs, with topics added progressively to target emerging research questions as the pandemic evolved. This comprehensive evaluation framework has become a standard benchmark for biomedical information retrieval systems.
+
+Previous work on TREC-COVID has explored various approaches. Top-performing systems in the challenge typically combined multiple techniques: lexical methods (BM25), neural reranking with BERT-based models, query expansion, and hybrid architectures. Many successful submissions leveraged domain-specific pre-trained models (BioBERT, PubMedBERT) with task-specific fine-tuning on retrieval pairs. However, most studies focused on achieving high performance through ensemble methods and complex pipelines, with limited analysis of why individual approaches succeed or fail. Few works have provided systematic comparisons across the full spectrum from simple baselines (TF-IDF) to state-of-the-art transformers, or investigated the trade-offs between model complexity and data requirements in this low-resource setting.
+
+\subsection{Evolution of Information Retrieval Methods}
 Information retrieval has evolved from lexical matching to semantic understanding. The Vector Space Model, exemplified by TF-IDF, remains a strong baseline but lacks semantic depth. It relies on exact word matching and term frequency statistics, making it vulnerable to vocabulary mismatch problems.
 
 The introduction of Word Embeddings, such as Word2Vec \cite{mikolov2013efficient}, allowed for vector representations where similar words are close in space. These static embeddings capture semantic relationships but lack contextual understanding. In the medical domain, models pre-trained on biomedical corpora, such as BioBERT \cite{lee2020biobert}, have shown that domain adaptation is crucial for performance. However, BioBERT inherits the vocabulary of general BERT, causing medical terms to be fragmented into subword tokens. PubMedBERT \cite{gu2020domain} addresses this by training from scratch on biomedical corpora, constructing a domain-specific vocabulary that avoids term fragmentation and achieves superior performance on biomedical benchmarks.
@@ -244,6 +249,15 @@ The introduction of Word Embeddings, such as Word2Vec \cite{mikolov2013efficient
 Deep Averaging Networks (DAN) \cite{iyyer2015deep} combine word embeddings with neural architectures, averaging word vectors and passing them through hidden layers. While effective for classification tasks, their performance in retrieval depends heavily on training data availability.
 
 More recently, Reimers et al. introduced Sentence-BERT \cite{reimers2019sentence}, optimizing BERT architectures specifically for semantic similarity tasks using siamese networks. This approach addresses a critical limitation of standard BERT: the [CLS] token embedding is not optimized for cosine similarity in dense retrieval scenarios. Subsequent work has extended this paradigm to biomedical domains, with models like MedCPT \cite{jin2023medcpt} leveraging contrastive learning on large-scale search logs to align query and document embeddings. Hybrid approaches combining lexical (BM25) and semantic (dense) signals, such as SPLADE \cite{formal2021splade}, have also shown promise by learning sparse lexical representations that maintain interpretability while benefiting from contextual understanding.
+
+\subsection{Our Contributions}
+This work addresses several gaps in previous TREC-COVID studies. First, we provide a \textbf{systematic evaluation framework} using reusable, model-agnostic functions that ensure fair comparison across all approaches—from simple TF-IDF to complex transformers. This framework eliminates implementation biases and allows us to isolate the impact of model architecture choices.
+
+Second, we conduct a \textbf{comprehensive comparative analysis} spanning the full spectrum of IR methods: lexical baselines (TF-IDF), static embeddings (Word2Vec variants), neural architectures (DAN), and transformer models (BioBERT, Sentence-BERT). Unlike previous work that focused on ensemble methods, we evaluate each approach independently to understand their individual strengths and limitations.
+
+Third, we provide \textbf{detailed failure analysis} explaining why certain theoretically promising approaches (e.g., BioBERT, fine-tuned models) underperform despite their advantages. Our analysis reveals critical insights: (1) domain expertise alone is insufficient without task-specific optimization, (2) model complexity requires adequate training data, and (3) simple approaches can outperform complex architectures in low-resource scenarios.
+
+Finally, we investigate the \textbf{trade-offs between model complexity and data availability} in specialized domains. Our experiments demonstrate that trainable models (DAN, fine-tuned Word2Vec) suffer from overfitting with limited queries (50), while pre-trained models achieve better generalization. These findings provide practical guidance for IR system design in resource-constrained biomedical settings.
 
 \section{Methodology}
 
@@ -324,13 +338,12 @@ To ensure consistent and fair comparison across all models, we implemented a reu
 
 \subsubsection{Word2Vec Variants}
 
-\textbf{1. W2V-General:} Trained from scratch on the TREC-COVID corpus using Gensim's Word2Vec implementation. Parameters: 200-dimensional embeddings, window size 5, minimum word count 2, trained for 5 epochs.
+\textbf{1. W2V-General (Trained from Scratch):} We trained a Word2Vec model from scratch using the entire TREC-COVID corpus. \textbf{Training data:} All 171,332 documents from the corpus were used. For each document, we combined the title and text, tokenized using NLTK's \texttt{word\_tokenize}, removed stopwords, and filtered to keep only alphabetic tokens. This produced a training corpus of 171,332 tokenized documents with an average length of 94 words per document. \textbf{Technical implementation:} We used Gensim's Word2Vec with the following parameters: 200-dimensional embeddings, window size 5 (context window of 5 words on each side), minimum word count 2 (words appearing less than twice are ignored), and trained for 5 epochs (5 complete passes over the corpus). The model learned embeddings for 105,771 unique words present in the TREC-COVID corpus. \textbf{Important note:} This model is trained unsupervised on the document corpus only; the 50 test queries are not used during training and are only used for evaluation.
 
-\textbf{2. BioWord2Vec:} Pre-trained model (BioWordVec\_PubMed\_MIMICIII\_d200) trained on 1.5 million biomedical words from PubMed and MIMIC-III. This model provides domain-specific embeddings without requiring training on our corpus.
+\textbf{2. BioWord2Vec (Pre-trained):} We used a pre-trained model (BioWordVec\_PubMed\_MIMICIII\_d200) trained on 1.5 million biomedical words from PubMed and MIMIC-III. This model provides domain-specific embeddings without requiring any training on our corpus. It was used directly for inference without modification.
+\textbf{3. BioWord2Vec Fine-tuned:} We fine-tuned the pre-trained BioWord2Vec model on the TREC-COVID corpus. \textbf{Training data:} All 171,332 documents from the TREC-COVID corpus were used, processed identically to the W2V-General model (title + text, tokenization, stopword removal). \textbf{Technical implementation:} We created a new Word2Vec model with the same architecture as the pre-trained model (200 dimensions, window size 5). We then built a vocabulary from the TREC-COVID documents, resulting in 81,225 unique words. For words present in both vocabularies (69,868 common words), we initialized their embeddings with the pre-trained weights, preserving the biomedical knowledge learned from PubMed/MIMIC-III. For words unique to TREC-COVID (11,357 new words), we initialized embeddings randomly and learned them during fine-tuning. The model was then trained for 5 epochs on the TREC-COVID documents, allowing it to adapt the embeddings to corpus-specific terminology while retaining general biomedical knowledge. \textbf{Important note:} As with W2V-General, only the document corpus is used for training; queries are not used during fine-tuning.
 
-\textbf{3. BioWord2Vec Fine-tuned:} The pre-trained BioWord2Vec model further fine-tuned on TREC-COVID for 5 epochs. We initialized the model with pre-trained weights for common vocabulary (69,868 words) and learned embeddings for 11,357 new words specific to TREC-COVID.
-
-\textbf{Document Representation:} For all Word2Vec variants, documents are represented by averaging word embeddings. We combine title and text, tokenize using NLTK, remove stopwords, and compute the mean embedding vector. Queries are processed identically.
+\textbf{Document Representation:} For all Word2Vec variants, documents are represented by averaging word embeddings. We combine title and text, tokenize using NLTK, remove stopwords, and compute the mean embedding vector. Queries are processed identically during inference (not during training).
 
 \subsubsection{Deep Averaging Network (DAN)}
 \textbf{Architecture:} We implemented a bi-encoder architecture where queries and documents share the same encoder. The encoder consists of:

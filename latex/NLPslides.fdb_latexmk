@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1770931969.79814 "/Users/lubin/Documents/medical_information_retrieval/latex/NLPslides.tex" "NLPslides.pdf" "NLPslides" 1770931970.89708 2
-  "/Users/lubin/Documents/medical_information_retrieval/latex/NLPslides.tex" 1770931970.56543 10474 27bf8a4072b122ffa81fe9be1476a4b5 ""
+["pdflatex"] 1770934813.99333 "/Users/lubin/Documents/medical_information_retrieval/latex/NLPslides.tex" "NLPslides.pdf" "NLPslides" 1770934815.10934 2
+  "/Users/lubin/Documents/medical_information_retrieval/latex/NLPslides.tex" 1770934813.66128 10469 31a7a944c47361c4649329f2db414267 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecsi1000.tfm" 1136768653 3584 87c00098505ed1ab5849d7a05016cb73 ""
@@ -231,10 +231,10 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1770286248 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1770286145 3345741 da2eb317d357c73ec80a717fd0529202 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "NLPslides.aux" 1770931970.81982 2239 aba58a4f64e30c2e59ad824a413f25f1 "pdflatex"
-  "NLPslides.nav" 1770931970.8207 1294 0fddce597a932ce678f44fe93cab7e44 "pdflatex"
-  "NLPslides.out" 1770931970.82053 187 b583f6223967e8da345fad53a5d54b9a "pdflatex"
-  "NLPslides.tex" 1770931970.56543 10474 27bf8a4072b122ffa81fe9be1476a4b5 ""
+  "NLPslides.aux" 1770934815.03081 2239 aba58a4f64e30c2e59ad824a413f25f1 "pdflatex"
+  "NLPslides.nav" 1770934815.0317 1294 0fddce597a932ce678f44fe93cab7e44 "pdflatex"
+  "NLPslides.out" 1770934815.03153 187 b583f6223967e8da345fad53a5d54b9a "pdflatex"
+  "NLPslides.tex" 1770934813.66128 10469 31a7a944c47361c4649329f2db414267 ""
   (generated)
   "NLPslides.aux"
   "NLPslides.log"

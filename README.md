@@ -32,17 +32,6 @@ python download.py
 
 ---
 
-### 3. `explictation_dataset.md`
-**Function**: Detailed documentation on the TREC-COVID dataset.
-
-- Corpus description (171,332 scientific documents on COVID-19)
-- Query explanation (50 search queries)
-- Qrels description (expert relevance judgments)
-- Data format and file structure
-- Evaluation metrics used (NDCG@10)
-
-**Objective**: Provide a complete reference on the dataset to understand the project context.
-
 ---
 
 ### 4. `functions.py`
